@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaestroSpirit - Plan d'Entraînement</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --gold-light: #F4E4BC;
+            --gold-dark: #B8860B;
+            --white: #FFFFFF;
+            --white-soft: #FFFAFA;
+            --black: #000000;
+            --gray-dark: #2F2F2F;
+            --gray-light: #E5E4E2;
+        }
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--white) 0%, var(--white-soft) 100%);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        
+        .header-section {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .goal-card {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gray-light);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .goal-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15);
+        }
+        
+        .goal-card.selected {
+            border: 2px solid var(--gold);
+            background: var(--gold-light);
+        }
+        
+        .plan-card {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gray-light);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(212, 175, 55, 0.15);
+        }
+        
+        .plan-card.active {
+            border: 2px solid var(--gold);
+            background: var(--gold-light);
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin: 1rem 0;
+        }
+        
+        .calendar-day {
+            aspect-ratio: 1;
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .calendar-day:hover {
+            background: var(--gold-light);
+            border-color: var(--gold);
+        }
+        
+        .calendar-day.today {
+            background: var(--gold);
+            color: var(--white);
+            font-weight: bold;
+        }
+        
+        .calendar-day.completed {
+            background: #10b981;
+            color: var(--white);
+        }
+        
+        .calendar-day.planned {
+            background: var(--gold-light);
+            border-color: var(--gold);
+        }
+        
+        .calendar-day.has-session::after {
+            content: '🎵';
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            font-size: 0.6rem;
+        }
+        
+        .session-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gray-light);
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .session-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
+        }
+        
+        .session-card.completed {
+            background: #d1fae5;
+            border-color: #10b981;
+        }
+        
+        .session-card.in-progress {
+            background: var(--gold-light);
+            border-color: var(--gold);
+        }
+        
+        .progress-ring {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: conic-gradient(var(--gold) 0deg, var(--gray-light) 0deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--gray-dark);
+            position: relative;
+        }
+        
+        .progress-ring::before {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: var(--white);
+            border-radius: 50%;
+        }
+        
+        .progress-text {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .nav-bar {
+            background: var(--white);
+            border-top: 1px solid var(--gray-light);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px;
+            color: var(--gray-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+        
+        .nav-item.active {
+            color: var(--gold);
+            background: var(--gold-light);
+        }
+        
+        .nav-item:hover {
+            color: var(--gold);
+            background: var(--gold-light);
+        }
+        
+        .nav-icon {
+            font-size: 1.2rem;
+            margin-bottom: 2px;
+        }
+        
+        .nav-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+        
+        .plan-duration {
+            background: var(--gold-light);
+            color: var(--gold-dark);
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .difficulty-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .difficulty-beginner {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .difficulty-intermediate {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+        
+        .difficulty-advanced {
+            background: #e9d8fd;
+            color: #553c9a;
+        }
+        
+        .session-timer {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gray-light);
+            padding: 1rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .timer-display {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--gold-dark);
+            margin: 1rem 0;
+        }
+        
+        .session-progress {
+            background: var(--gray-light);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .session-progress-fill {
+            background: linear-gradient(90deg, var(--gold) 0%, var(--gold-dark) 100%);
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: var(--white);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .plan-stats {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gray-light);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        
+        .stat-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--gold);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header-section p-6 text-center">
+        <div class="flex items-center justify-between mb-4">
+            <button onclick="history.back()" class="text-white text-xl">←</button>
+            <h1 class="text-xl font-display">Plan d'Entraînement</h1>
+            <div class="w-6"></div>
+        </div>
+        <p class="text-sm opacity-90">Structurez votre progression musicale</p>
+    </div>
+
+    <!-- Goal Selection -->
+    <div class="px-4 mb-6">
+        <h2 class="text-xl font-display mb-4 text-gray-800">Choisissez votre Objectif</h2>
+        <div class="grid grid-cols-1 gap-4">
+            <div class="goal-card p-4" data-goal="voice">
+                <div class="flex items-center">
+                    <span class="text-3xl mr-4">🎤</span>
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Améliorer ma Voix</h3>
+                        <p class="text-sm text-gray-600">Technique vocale et confiance</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="plan-duration">7-30 jours</span>
+                            <span class="difficulty-badge difficulty-beginner">Débutant</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="goal-card p-4" data-goal="instrument">
+                <div class="flex items-center">
+                    <span class="text-3xl mr-4">🎸</span>
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Maîtriser un Instrument</h3>
+                        <p class="text-sm text-gray-600">Progression instrumentale complète</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="plan-duration">14-30 jours</span>
+                            <span class="difficulty-badge difficulty-intermediate">Intermédiaire</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="goal-card p-4" data-goal="theory">
+                <div class="flex items-center">
+                    <span class="text-3xl mr-4">📚</span>
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Comprendre la Théorie</h3>
+                        <p class="text-sm text-gray-600">Bases musicales et harmonie</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="plan-duration">7-14 jours</span>
+                            <span class="difficulty-badge difficulty-beginner">Débutant</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="goal-card p-4" data-goal="performance">
+                <div class="flex items-center">
+                    <span class="text-3xl mr-4">🎭</span>
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Préparer une Performance</h3>
+                        <p class="text-sm text-gray-600">Se produire en public</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="plan-duration">30 jours</span>
+                            <span class="difficulty-badge difficulty-advanced">Avancé</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Training Plans -->
+    <div id="training-plans" class="px-4 mb-6" style="display: none;">
+        <h2 class="text-xl font-display mb-4 text-gray-800">Choisissez votre Programme</h2>
+        
+        <div id="plan-options">
+            <!-- Plans will be dynamically generated based on selected goal -->
+        </div>
+    </div>
+
+    <!-- Training Calendar -->
+    <div id="training-calendar" class="px-4 mb-6" style="display: none;">
+        <h2 class="text-xl font-display mb-4 text-gray-800">Calendrier d'Entraînement</h2>
+        
+        <div class="plan-stats">
+            <div class="stat-circle" id="completion-circle">0%</div>
+            <h3 class="font-semibold text-gray-800">Progression du Plan</h3>
+            <p class="text-sm text-gray-600">Sessions complétées</p>
+        </div>
+        
+        <div class="bg-white rounded-lg p-4 mb-4">
+            <h3 class="font-semibold text-gray-800 mb-3" id="calendar-month">Décembre 2024</h3>
+            <div class="calendar-grid" id="calendar-grid">
+                <!-- Calendar days will be generated dynamically -->
+            </div>
+        </div>
+        
+        <div id="daily-sessions">
+            <h3 class="font-semibold text-gray-800 mb-3">Séances du Jour</h3>
+            <div id="sessions-list">
+                <p class="text-sm text-gray-500 text-center py-4">Sélectionnez une date pour voir les séances</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Session Timer -->
+    <div id="session-timer-section" class="px-4 mb-6" style="display: none;">
+        <div class="session-timer">
+            <h3 class="font-semibold text-gray-800 mb-2" id="session-title">Session d'Entraînement</h3>
+            <div class="timer-display" id="session-timer-display">25:00</div>
+            <div class="session-progress">
+                <div class="session-progress-fill" id="session-progress-fill" style="width: 0%;"></div>
+            </div>
+            <div class="flex gap-3 mt-4">
+                <button onclick="startTrainingSession()" id="start-session-btn" class="flex-1 bg-yellow-500 text-white py-2 px-4 rounded-lg font-semibold">
+                    Commencer
+                </button>
+                <button onclick="pauseTrainingSession()" id="pause-session-btn" class="flex-1 bg-gray-200 text-gray-700 py-2 px-4 rounded-lg" style="display: none;">
+                    Pause
+                </button>
+                <button onclick="completeTrainingSession()" id="complete-session-btn" class="flex-1 bg-green-500 text-white py-2 px-4 rounded-lg" style="display: none;">
+                    Terminer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="nav-bar">
+        <div class="flex justify-around py-2">
+            <a href="index.html" class="nav-item" data-nav="dashboard">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Accueil</span>
+            </a>
+            <a href="voice.html" class="nav-item" data-nav="voice">
+                <span class="nav-icon">🎤</span>
+                <span class="nav-label">Voix</span>
+            </a>
+            <a href="instruments.html" class="nav-item" data-nav="instruments">
+                <span class="nav-icon">🎸</span>
+                <span class="nav-label">Instruments</span>
+            </a>
+            <a href="theory.html" class="nav-item" data-nav="theory">
+                <span class="nav-icon">📚</span>
+                <span class="nav-label">Théorie</span>
+            </a>
+            <a href="spirituality.html" class="nav-item" data-nav="spirituality">
+                <span class="nav-icon">✨</span>
+                <span class="nav-label">Spiritualité</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Application Script -->
+    <script src="main.js"></script>
+    
+    <script>
+        let selectedGoal = null;
+        let selectedPlan = null;
+        let trainingTimer = null;
+        let sessionTime = 0;
+        let isSessionRunning = false;
+        let currentSession = null;
+        let trainingPlans = {};
+        let completedSessions = [];
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            setupGoalSelection();
+            loadTrainingData();
+            generateTrainingPlans();
+        });
+        
+        function setupGoalSelection() {
+            const goalCards = document.querySelectorAll('.goal-card');
+            
+            goalCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    // Remove previous selection
+                    goalCards.forEach(c => c.classList.remove('selected'));
+                    
+                    // Select current goal
+                    card.classList.add('selected');
+                    selectedGoal = card.dataset.goal;
+                    
+                    // Show training plans for this goal
+                    showTrainingPlans(selectedGoal);
+                    
+                    // Update progress
+                    if (app && app.updateProgress) {
+                        app.updateProgress('spirituality', 5);
+                    }
+                });
+            });
+        }
+        
+        function generateTrainingPlans() {
+            trainingPlans = {
+                voice: [
+                    {
+                        id: 'voice-7',
+                        name: 'Défi Vocal 7 Jours',
+                        duration: 7,
+                        difficulty: 'beginner',
+                        sessions: [
+                            { day: 1, name: 'Respiration et posture', duration: 15, type: 'technique' },
+                            { day: 2, name: 'Échauffement vocal', duration: 20, type: 'warmup' },
+                            { day: 3, name: 'Exercices de justesse', duration: 25, type: 'pitch' },
+                            { day: 4, name: 'Développement de tessiture', duration: 30, type: 'range' },
+                            { day: 5, name: 'Puissance vocale', duration: 25, type: 'power' },
+                            { day: 6, name: 'Expression émotionnelle', duration: 30, type: 'expression' },
+                            { day: 7, name: 'Performance intégrée', duration: 35, type: 'performance' }
+                        ]
+                    },
+                    {
+                        id: 'voice-30',
+                        name: 'Maîtrise Vocale 30 Jours',
+                        duration: 30,
+                        difficulty: 'intermediate',
+                        sessions: [
+                            { week: 1, sessions: [
+                                { day: 1, name: 'Fondations vocales', duration: 20 },
+                                { day: 2, name: 'Respiration diaphragmatique', duration: 25 },
+                                { day: 3, name: 'Placement vocal', duration: 30 },
+                                { day: 4, name: 'Résonance', duration: 25 },
+                                { day: 5, name: 'Articulation', duration: 30 },
+                                { day: 6, name: 'Repos actif', duration: 15 },
+                                { day: 7, name: 'Évaluation hebdomadaire', duration: 40 }
+                            ]},
+                            // Additional weeks would be defined similarly
+                        ]
+                    }
+                ],
+                instrument: [
+                    {
+                        id: 'guitar-14',
+                        name: 'Guitare Express 14 Jours',
+                        duration: 14,
+                        difficulty: 'beginner',
+                        sessions: [
+                            { day: 1, name: 'Posture et position', duration: 20, type: 'technique' },
+                            { day: 2, name: 'Accords de base', duration: 25, type: 'chords' },
+                            { day: 3, name: 'Rythmique simple', duration: 30, type: 'rhythm' },
+                            { day: 4, name: 'Changement d\'accords', duration: 25, type: 'transitions' },
+                            { day: 5, name: 'Première chanson', duration: 35, type: 'song' },
+                            // Additional days...
+                        ]
+                    }
+                ],
+                theory: [
+                    {
+                        id: 'theory-7',
+                        name: 'Bases Théoriques 7 Jours',
+                        duration: 7,
+                        difficulty: 'beginner',
+                        sessions: [
+                            { day: 1, name: 'Notes et clés', duration: 20, type: 'basics' },
+                            { day: 2, name: 'Gammes majeures', duration: 25, type: 'scales' },
+                            { day: 3, name: 'Construction d\'accords', duration: 30, type: 'chords' },
+                            { day: 4, name: 'Rythme et mesure', duration: 25, type: 'rhythm' },
+                            { day: 5, name: 'Lecture de partitions', duration: 30, type: 'reading' },
+                            { day: 6, name: 'Harmonie de base', duration: 35, type: 'harmony' },
+                            { day: 7, name: 'Synthèse et quiz', duration: 40, type: 'review' }
+                        ]
+                    }
+                ],
+                performance: [
+                    {
+                        id: 'performance-30',
+                        name: 'Préparation Performance 30 Jours',
+                        duration: 30,
+                        difficulty: 'advanced',
+                        sessions: [
+                            // Detailed 30-day performance preparation plan
+                        ]
+                    }
+                ]
+            };
+        }
+        
+        function showTrainingPlans(goal) {
+            const plansSection = document.getElementById('training-plans');
+            const plansContainer = document.getElementById('plan-options');
+            
+            // Clear previous plans
+            plansContainer.innerHTML = '';
+            
+            // Get plans for selected goal
+            const plans = trainingPlans[goal] || [];
+            
+            if (plans.length > 0) {
+                plans.forEach(plan => {
+                    const planCard = document.createElement('div');
+                    planCard.className = 'plan-card';
+                    planCard.innerHTML = `
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <h3 class="font-semibold text-gray-800">${plan.name}</h3>
+                                <p class="text-sm text-gray-600">Programme structuré de ${plan.duration} jours</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="plan-duration">${plan.duration} jours</span>
+                                <span class="difficulty-badge difficulty-${plan.difficulty}">${getDifficultyLabel(plan.difficulty)}</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">Séances quotidiennes progressives avec objectifs clairs</p>
+                        <button onclick="selectPlan('${plan.id}')" class="w-full bg-yellow-500 text-white py-2 px-4 rounded-lg font-semibold">
+                            Choisir ce Plan
+                        </button>
+                    `;
+                    plansContainer.appendChild(planCard);
+                });
+                
+                plansSection.style.display = 'block';
+                
+                // Animate appearance
+                anime({
+                    targets: plansSection,
+                    opacity: [0, 1],
+                    translateY: [20, 0],
+                    duration: 500,
+                    easing: 'easeOutQuart'
+                });
+            }
+        }
+        
+        function selectPlan(planId) {
+            selectedPlan = planId;
+            
+            // Mark plan as selected
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            event.target.closest('.plan-card').classList.add('active');
+            
+            // Show training calendar
+            showTrainingCalendar(planId);
+            
+            // Update progress
+            if (app && app.updateProgress) {
+                app.updateProgress('spirituality', 10);
+            }
+        }
+        
+        function showTrainingCalendar(planId) {
+            const calendarSection = document.getElementById('training-calendar');
+            
+            // Generate calendar for the plan duration
+            generateCalendar(planId);
+            
+            calendarSection.style.display = 'block';
+            
+            // Animate appearance
+            anime({
+                targets: calendarSection,
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 500,
+                easing: 'easeOutQuart'
+            });
+        }
+        
+        function generateCalendar(planId) {
+            const calendarGrid = document.getElementById('calendar-grid');
+            const plan = findPlanById(planId);
+            
+            if (!plan) return;
+            
+            // Clear previous calendar
+            calendarGrid.innerHTML = '';
+            
+            // Generate days for the plan duration
+            for (let day = 1; day <= plan.duration; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+                dayElement.dataset.day = day;
+                
+                // Check if day has sessions
+                const hasSession = plan.sessions && plan.sessions.some(session => session.day === day);
+                if (hasSession) {
+                    dayElement.classList.add('has-session');
+                }
+                
+                // Check if day is completed
+                if (completedSessions.includes(day)) {
+                    dayElement.classList.add('completed');
+                }
+                
+                // Add click handler
+                dayElement.addEventListener('click', () => showDaySessions(planId, day));
+                
+                calendarGrid.appendChild(dayElement);
+            }
+            
+            // Update completion stats
+            updateCompletionStats();
+        }
+        
+        function showDaySessions(planId, day) {
+            const plan = findPlanById(planId);
+            const sessionsList = document.getElementById('sessions-list');
+            
+            if (!plan || !plan.sessions) return;
+            
+            const daySessions = plan.sessions.filter(session => session.day === day);
+            
+            if (daySessions.length > 0) {
+                sessionsList.innerHTML = '';
+                daySessions.forEach(session => {
+                    const sessionCard = document.createElement('div');
+                    sessionCard.className = `session-card ${completedSessions.includes(day) ? 'completed' : ''}`;
+                    sessionCard.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="font-semibold text-gray-800">${session.name}</h4>
+                                <p class="text-sm text-gray-600">${session.duration} minutes • ${getSessionTypeLabel(session.type)}</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                ${!completedSessions.includes(day) ? `
+                                    <button onclick="startSession('${planId}', ${day}, '${session.name}', ${session.duration})" class="bg-yellow-500 text-white px-3 py-1 rounded text-sm">
+                                        Commencer
+                                    </button>
+                                ` : `
+                                    <span class="text-green-600 text-sm">✓ Complété</span>
+                                `}
+                            </div>
+                        </div>
+                    `;
+                    sessionsList.appendChild(sessionCard);
+                });
+            } else {
+                sessionsList.innerHTML = '<p class="text-sm text-gray-500 text-center py-4">Aucune séance prévue pour ce jour</p>';
+            }
+        }
+        
+        function startSession(planId, day, sessionName, duration) {
+            currentSession = { planId, day, sessionName, duration };
+            sessionTime = duration * 60; // Convert to seconds
+            
+            const timerSection = document.getElementById('session-timer-section');
+            const titleElement = document.getElementById('session-title');
+            const timerDisplay = document.getElementById('session-timer-display');
+            
+            titleElement.textContent = sessionName;
+            updateSessionTimer();
+            
+            timerSection.style.display = 'block';
+            
+            // Animate appearance
+            anime({
+                targets: timerSection,
+                opacity: [0, 1],
+                translateY: [20, 0],
+                duration: 500,
+                easing: 'easeOutQuart'
+            });
+        }
+        
+        function startTrainingSession() {
+            if (!isSessionRunning) {
+                isSessionRunning = true;
+                const startBtn = document.getElementById('start-session-btn');
+                const pauseBtn = document.getElementById('pause-session-btn');
+                const completeBtn = document.getElementById('complete-session-btn');
+                
+                startBtn.style.display = 'none';
+                pauseBtn.style.display = 'block';
+                completeBtn.style.display = 'block';
+                
+                trainingTimer = setInterval(() => {
+                    sessionTime--;
+                    updateSessionTimer();
+                    updateSessionProgress();
+                    
+                    if (sessionTime <= 0) {
+                        completeTrainingSession();
+                    }
+                }, 1000);
+            }
+        }
+        
+        function pauseTrainingSession() {
+            isSessionRunning = false;
+            clearInterval(trainingTimer);
+            
+            const startBtn = document.getElementById('start-session-btn');
+            const pauseBtn = document.getElementById('pause-session-btn');
+            
+            startBtn.style.display = 'block';
+            pauseBtn.style.display = 'none';
+            startBtn.textContent = 'Reprendre';
+        }
+        
+        function completeTrainingSession() {
+            isSessionRunning = false;
+            clearInterval(trainingTimer);
+            
+            if (currentSession) {
+                // Mark session as completed
+                completedSessions.push(currentSession.day);
+                
+                // Save to localStorage
+                const completedData = JSON.parse(localStorage.getItem('maestroCompletedSessions')) || [];
+                completedData.push({
+                    planId: currentSession.planId,
+                    day: currentSession.day,
+                    completedAt: new Date().toISOString()
+                });
+                localStorage.setItem('maestroCompletedSessions', JSON.stringify(completedData));
+                
+                // Update UI
+                updateCompletionStats();
+                generateCalendar(currentSession.planId);
+                
+                // Update progress
+                if (app && app.updateProgress) {
+                    app.updateProgress('spirituality', 15);
+                }
+                
+                // Show completion message
+                showSessionCompletion();
+            }
+            
+            // Reset session
+            resetSession();
+        }
+        
+        function updateSessionTimer() {
+            const timerDisplay = document.getElementById('session-timer-display');
+            const minutes = Math.floor(sessionTime / 60);
+            const seconds = sessionTime % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        function updateSessionProgress() {
+            if (currentSession) {
+                const totalTime = currentSession.duration * 60;
+                const progress = ((totalTime - sessionTime) / totalTime) * 100;
+                const progressFill = document.getElementById('session-progress-fill');
+                progressFill.style.width = `${progress}%`;
+            }
+        }
+        
+        function updateCompletionStats() {
+            if (selectedPlan) {
+                const plan = findPlanById(selectedPlan);
+                if (plan) {
+                    const totalSessions = plan.sessions ? plan.sessions.length : plan.duration;
+                    const completedCount = completedSessions.filter(day => 
+                        day <= plan.duration
+                    ).length;
+                    const percentage = Math.round((completedCount / totalSessions) * 100);
+                    
+                    const circle = document.getElementById('completion-circle');
+                    if (circle) {
+                        circle.textContent = `${percentage}%`;
+                    }
+                }
+            }
+        }
+        
+        function showSessionCompletion() {
+            const toast = document.createElement('div');
+            toast.className = 'completion-toast';
+            toast.innerHTML = `
+                <div class="toast-content">
+                    <span class="toast-icon">🎉</span>
+                    <span class="toast-text">Session terminée! +15 XP</span>
+                </div>
+            `;
+            document.body.appendChild(toast);
+            
+            anime({
+                targets: toast,
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 500,
+                easing: 'easeOutBounce',
+                complete: () => {
+                    setTimeout(() => {
+                        anime({
+                            targets: toast,
+                            translateY: [0, -100],
+                            opacity: [1, 0],
+                            duration: 300,
+                            complete: () => toast.remove()
+                        });
+                    }, 3000);
+                }
+            });
+        }
+        
+        function resetSession() {
+            sessionTime = 0;
+            isSessionRunning = false;
+            currentSession = null;
+            
+            const timerSection = document.getElementById('session-timer-section');
+            timerSection.style.display = 'none';
+            
+            // Reset buttons
+            document.getElementById('start-session-btn').style.display = 'block';
+            document.getElementById('pause-session-btn').style.display = 'none';
+            document.getElementById('complete-session-btn').style.display = 'none';
+        }
+        
+        function findPlanById(planId) {
+            for (const goal in trainingPlans) {
+                const plan = trainingPlans[goal].find(p => p.id === planId);
+                if (plan) return plan;
+            }
+            return null;
+        }
+        
+        function loadTrainingData() {
+            const completedData = JSON.parse(localStorage.getItem('maestroCompletedSessions')) || [];
+            completedSessions = completedData.map(item => item.day);
+        }
+        
+        function getDifficultyLabel(difficulty) {
+            const labels = {
+                beginner: 'Débutant',
+                intermediate: 'Intermédiaire',
+                advanced: 'Avancé'
+            };
+            return labels[difficulty] || difficulty;
+        }
+        
+        function getSessionTypeLabel(type) {
+            const labels = {
+                technique: 'Technique',
+                warmup: 'Échauffement',
+                pitch: 'Justesse',
+                range: 'Tessiture',
+                power: 'Puissance',
+                expression: 'Expression',
+                performance: 'Performance',
+                chords: 'Accords',
+                rhythm: 'Rythme',
+                transitions: 'Transitions',
+                song: 'Chanson',
+                basics: 'Bases',
+                scales: 'Gammes',
+                reading: 'Lecture',
+                harmony: 'Harmonie',
+                review: 'Révision'
+            };
+            return labels[type] || type;
+        }
+        
+        // Navigation
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('[data-nav]')) {
+                e.preventDefault();
+                const target = e.target.dataset.nav;
+                
+                if (app && app.navigateTo) {
+                    app.navigateTo(target);
+                } else {
+                    const pages = {
+                        'dashboard': 'index.html',
+                        'voice': 'voice.html',
+                        'instruments': 'instruments.html',
+                        'theory': 'theory.html',
+                        'spirituality': 'spirituality.html',
+                        'profile': 'profile.html'
+                    };
+                    
+                    if (pages[target]) {
+                        window.location.href = pages[target];
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

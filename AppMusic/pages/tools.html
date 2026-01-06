@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outils - MaestroSpirit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <style>
+        .tool-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gray-light);
+        }
+        .metronome-display {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            color: var(--gold);
+            margin: 1rem 0;
+        }
+        .bpm-slider {
+            width: 100%;
+            margin: 1rem 0;
+        }
+        .piano-keys {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
+            position: relative;
+            height: 120px;
+        }
+        .white-key {
+            width: 40px;
+            height: 120px;
+            background: white;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 10px;
+            font-size: 12px;
+        }
+        .black-key {
+            width: 25px;
+            height: 80px;
+            background: #333;
+            color: white;
+            position: absolute;
+            cursor: pointer;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 10px;
+            font-size: 10px;
+            z-index: 2;
+        }
+        .recorder-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        .record-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .record-btn.recording {
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .tuner-display {
+            text-align: center;
+            font-size: 2rem;
+            margin: 1rem 0;
+        }
+        .frequency-display {
+            font-size: 1.5rem;
+            color: var(--gold);
+        }
+        .chord-display {
+            background: var(--gold-light);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-section p-6 text-center">
+        <h1 class="text-2xl font-display mb-2">🛠️ Outils Musicaux</h1>
+        <p class="text-sm opacity-90">Métronome, Piano, Enregistreur et plus</p>
+    </div>
+
+    <div class="px-4 py-6">
+        <!-- Métronome -->
+        <div class="tool-card">
+            <h3 class="font-semibold mb-3">🥁 Métronome</h3>
+            <div class="metronome-display" id="bpm-display">120 BPM</div>
+            <input type="range" class="bpm-slider" id="bpm-slider" min="60" max="200" value="120">
+            <div class="flex gap-3 justify-center">
+                <button id="metronome-start" class="quick-action-btn">Démarrer</button>
+                <button id="metronome-stop" class="quick-action-btn">Arrêter</button>
+            </div>
+        </div>
+
+        <!-- Piano Virtuel -->
+        <div class="tool-card">
+            <h3 class="font-semibold mb-3">🎹 Piano Virtuel</h3>
+            <div class="piano-keys" id="piano-keys">
+                <div class="white-key" data-note="C4">C</div>
+                <div class="black-key" data-note="C#4" style="left: 30px;">C#</div>
+                <div class="white-key" data-note="D4">D</div>
+                <div class="black-key" data-note="D#4" style="left: 70px;">D#</div>
+                <div class="white-key" data-note="E4">E</div>
+                <div class="white-key" data-note="F4">F</div>
+                <div class="black-key" data-note="F#4" style="left: 150px;">F#</div>
+                <div class="white-key" data-note="G4">G</div>
+                <div class="black-key" data-note="G#4" style="left: 190px;">G#</div>
+                <div class="white-key" data-note="A4">A</div>
+                <div class="black-key" data-note="A#4" style="left: 230px;">A#</div>
+                <div class="white-key" data-note="B4">B</div>
+            </div>
+        </div>
+
+        <!-- Enregistreur -->
+        <div class="tool-card">
+            <h3 class="font-semibold mb-3">🎤 Enregistreur Vocal</h3>
+            <div class="recorder-controls">
+                <button id="record-btn" class="record-btn">🎤</button>
+                <button id="play-btn" class="quick-action-btn" disabled>Écouter</button>
+                <button id="save-btn" class="quick-action-btn" disabled>Sauvegarder</button>
+            </div>
+            <div id="recording-status" class="text-center text-sm text-gray-600"></div>
+            <audio id="playback-audio" controls style="width: 100%; margin-top: 1rem; display: none;"></audio>
+        </div>
+
+        <!-- Accordeur -->
+        <div class="tool-card">
+            <h3 class="font-semibold mb-3">🎸 Accordeur</h3>
+            <div class="tuner-display">
+                <div id="detected-note">--</div>
+                <div class="frequency-display" id="detected-frequency">0 Hz</div>
+            </div>
+            <button id="tuner-start" class="quick-action-btn w-full">Démarrer l'accordeur</button>
+        </div>
+
+        <!-- Générateur d'accords -->
+        <div class="tool-card">
+            <h3 class="font-semibold mb-3">🎼 Générateur d'Accords</h3>
+            <div class="flex gap-3 mb-3">
+                <select id="chord-root" class="flex-1 p-2 border rounded">
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="E">E</option>
+                    <option value="F">F</option>
+                    <option value="G">G</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                </select>
+                <select id="chord-type" class="flex-1 p-2 border rounded">
+                    <option value="major">Majeur</option>
+                    <option value="minor">Mineur</option>
+                    <option value="major7">Maj7</option>
+                    <option value="minor7">Min7</option>
+                    <option value="dominant7">7ème</option>
+                </select>
+            </div>
+            <button id="generate-chord" class="quick-action-btn w-full">Générer Accord</button>
+            <div id="chord-result" class="chord-display" style="display: none;"></div>
+        </div>
+
+        <!-- Quiz Théorie -->
+        <div class="tool-card">
+            <h3 class="font-semibold mb-3">🧠 Quiz Théorie</h3>
+            <div id="quiz-container" style="display: none;">
+                <div id="quiz-question" class="mb-4 font-semibold"></div>
+                <div id="quiz-options" class="grid grid-cols-2 gap-2"></div>
+                <div id="quiz-result" class="mt-4 text-center" style="display: none;"></div>
+            </div>
+            <button id="start-quiz" class="quick-action-btn w-full">Nouveau Quiz</button>
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <div class="flex justify-around py-2">
+            <a href="../index.html" class="nav-item">
+                <span>🏠</span>
+                <span class="text-xs">Accueil</span>
+            </a>
+            <a href="voice.html" class="nav-item">
+                <span>🎤</span>
+                <span class="text-xs">Voix</span>
+            </a>
+            <a href="instruments.html" class="nav-item">
+                <span>🎸</span>
+                <span class="text-xs">Instruments</span>
+            </a>
+            <a href="theory.html" class="nav-item">
+                <span>📚</span>
+                <span class="text-xs">Théorie</span>
+            </a>
+            <a href="tools.html" class="nav-item active">
+                <span>🛠️</span>
+                <span class="text-xs">Outils</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <span>👤</span>
+                <span class="text-xs">Profil</span>
+            </a>
+        </div>
+    </nav>
+
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/audio-engine.js"></script>
+    <script src="../assets/js/music-theory.js"></script>
+    <script>
+        function cleanupModals() {
+            document.querySelectorAll('[style*="position: fixed"]').forEach(el => el.remove());
+            document.querySelectorAll('[style*="position:fixed"]').forEach(el => el.remove());
+            document.body.style.overflow = '';
+            document.body.style.filter = '';
+            document.body.style.opacity = '';
+            document.body.style.background = '';
+        }
+        document.addEventListener('DOMContentLoaded', cleanupModals);
+        let audioEngine, theoryEngine;
+        let currentRecording = null;
+        let tunerActive = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            audioEngine = new AudioEngine();
+            theoryEngine = new MusicTheoryEngine();
+            setupTools();
+        });
+
+        function setupTools() {
+            // Métronome
+            const bpmSlider = document.getElementById('bpm-slider');
+            const bpmDisplay = document.getElementById('bpm-display');
+            const metronomeStart = document.getElementById('metronome-start');
+            const metronomeStop = document.getElementById('metronome-stop');
+
+            bpmSlider.addEventListener('input', (e) => {
+                const bpm = e.target.value;
+                bpmDisplay.textContent = `${bpm} BPM`;
+                audioEngine.bpm = bpm;
+            });
+
+            metronomeStart.addEventListener('click', () => {
+                audioEngine.startMetronome(audioEngine.bpm);
+            });
+
+            metronomeStop.addEventListener('click', () => {
+                audioEngine.stopMetronome();
+            });
+
+            // Piano virtuel
+            document.querySelectorAll('.white-key, .black-key').forEach(key => {
+                key.addEventListener('click', () => {
+                    const note = key.dataset.note;
+                    const frequency = NOTE_FREQUENCIES[note];
+                    if (frequency) {
+                        audioEngine.playNote(frequency);
+                        key.style.background = key.classList.contains('white-key') ? '#f0f0f0' : '#555';
+                        setTimeout(() => {
+                            key.style.background = key.classList.contains('white-key') ? 'white' : '#333';
+                        }, 200);
+                    }
+                });
+            });
+
+            // Enregistreur
+            setupRecorder();
+
+            // Accordeur
+            setupTuner();
+
+            // Générateur d'accords
+            setupChordGenerator();
+
+            // Quiz
+            setupQuiz();
+        }
+
+        function setupRecorder() {
+            const recordBtn = document.getElementById('record-btn');
+            const playBtn = document.getElementById('play-btn');
+            const saveBtn = document.getElementById('save-btn');
+            const status = document.getElementById('recording-status');
+            const audio = document.getElementById('playback-audio');
+
+            recordBtn.addEventListener('click', async () => {
+                if (!audioEngine.isRecording) {
+                    const success = await audioEngine.startRecording();
+                    if (success) {
+                        recordBtn.classList.add('recording');
+                        recordBtn.textContent = '⏹️';
+                        status.textContent = 'Enregistrement en cours...';
+                    }
+                } else {
+                    const audioUrl = await audioEngine.stopRecording();
+                    recordBtn.classList.remove('recording');
+                    recordBtn.textContent = '🎤';
+                    status.textContent = 'Enregistrement terminé';
+                    
+                    currentRecording = audioUrl;
+                    audio.src = audioUrl;
+                    audio.style.display = 'block';
+                    playBtn.disabled = false;
+                    saveBtn.disabled = false;
+                }
+            });
+
+            saveBtn.addEventListener('click', () => {
+                if (currentRecording) {
+                    const a = document.createElement('a');
+                    a.href = currentRecording;
+                    a.download = `enregistrement_${Date.now()}.wav`;
+                    a.click();
+                }
+            });
+        }
+
+        function setupTuner() {
+            const tunerStart = document.getElementById('tuner-start');
+            const detectedNote = document.getElementById('detected-note');
+            const detectedFreq = document.getElementById('detected-frequency');
+
+            tunerStart.addEventListener('click', async () => {
+                if (!tunerActive) {
+                    const detectPitch = await audioEngine.startTuner();
+                    if (detectPitch) {
+                        tunerActive = true;
+                        tunerStart.textContent = 'Arrêter l\'accordeur';
+                        
+                        const updateTuner = () => {
+                            if (tunerActive) {
+                                const frequency = detectPitch();
+                                detectedFreq.textContent = `${frequency.toFixed(1)} Hz`;
+                                
+                                // Détection de note approximative
+                                const note = frequencyToNote(frequency);
+                                detectedNote.textContent = note || '--';
+                                
+                                requestAnimationFrame(updateTuner);
+                            }
+                        };
+                        updateTuner();
+                    }
+                } else {
+                    tunerActive = false;
+                    tunerStart.textContent = 'Démarrer l\'accordeur';
+                    detectedNote.textContent = '--';
+                    detectedFreq.textContent = '0 Hz';
+                }
+            });
+        }
+
+        function setupChordGenerator() {
+            const generateBtn = document.getElementById('generate-chord');
+            const chordResult = document.getElementById('chord-result');
+
+            generateBtn.addEventListener('click', () => {
+                const root = document.getElementById('chord-root').value;
+                const type = document.getElementById('chord-type').value;
+                
+                const chord = theoryEngine.generateChord(root, type);
+                chordResult.innerHTML = `
+                    <h4>${root} ${type}</h4>
+                    <p>Notes: ${chord.join(' - ')}</p>
+                `;
+                chordResult.style.display = 'block';
+            });
+        }
+
+        function setupQuiz() {
+            const startQuiz = document.getElementById('start-quiz');
+            const quizContainer = document.getElementById('quiz-container');
+            const quizQuestion = document.getElementById('quiz-question');
+            const quizOptions = document.getElementById('quiz-options');
+            const quizResult = document.getElementById('quiz-result');
+
+            startQuiz.addEventListener('click', () => {
+                const quiz = theoryEngine.generateQuiz();
+                
+                quizQuestion.textContent = quiz.question;
+                quizOptions.innerHTML = '';
+                quizResult.style.display = 'none';
+                
+                quiz.options.forEach(option => {
+                    const btn = document.createElement('button');
+                    btn.className = 'quick-action-btn';
+                    btn.textContent = option;
+                    btn.addEventListener('click', () => {
+                        const isCorrect = option === quiz.correct;
+                        quizResult.innerHTML = isCorrect ? 
+                            '<span style="color: green;">✅ Correct!</span>' : 
+                            `<span style="color: red;">❌ Incorrect. Réponse: ${quiz.correct}</span>`;
+                        quizResult.style.display = 'block';
+                        
+                        if (isCorrect && app) {
+                            app.updateProgress('theory', 15);
+                        }
+                    });
+                    quizOptions.appendChild(btn);
+                });
+                
+                quizContainer.style.display = 'block';
+                startQuiz.textContent = 'Nouveau Quiz';
+            });
+        }
+
+        function frequencyToNote(frequency) {
+            const A4 = 440;
+            const C0 = A4 * Math.pow(2, -4.75);
+            
+            if (frequency > 0) {
+                const h = Math.round(12 * Math.log2(frequency / C0));
+                const octave = Math.floor(h / 12);
+                const n = h % 12;
+                const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+                return notes[n] + octave;
+            }
+            return null;
+        }
+    </script>
+</body>
+</html>

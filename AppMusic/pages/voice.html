@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voix & Chant - MaestroSpirit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <div class="header-section p-6 text-center">
+        <h1 class="text-2xl font-display mb-2">🎤 Voix & Chant</h1>
+        <p class="text-sm opacity-90">Développez votre technique vocale</p>
+    </div>
+
+    <div class="px-4" style="padding-top: 2rem; padding-bottom: 8rem;">
+        <!-- Échauffement vocal -->
+        <div class="progress-card exercise-card p-4 mb-4 animate-fadeInUp">
+            <h3 class="font-semibold mb-3">🔥 Échauffement Vocal (5 min)</h3>
+            <p class="text-sm text-gray-600 mb-3">Préparez votre voix avant de chanter</p>
+            <ol class="text-sm mb-3 pl-4">
+                <li>1. Respirations profondes (30 sec)</li>
+                <li>2. Lèvres qui vibrent "Brrrr" (1 min)</li>
+                <li>3. Sirènes "Ng" grave → aigu (1 min)</li>
+                <li>4. Gammes "Ma-Me-Mi-Mo-Mu" (2 min)</li>
+                <li>5. Vocalises "La" Do-Ré-Mi-Fa-Sol (30 sec)</li>
+            </ol>
+            <button class="quick-action-btn w-full" onclick="startVocalWarmup()">
+                Commencer l'échauffement
+            </button>
+        </div>
+
+        <!-- Respiration diaphragmatique -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">🫁 Respiration Diaphragmatique</h3>
+            <p class="text-sm text-gray-600 mb-3">Base de toute technique vocale</p>
+            <div class="text-sm mb-3">
+                <p><strong>Position:</strong> Allongé ou debout, main sur le ventre</p>
+                <p><strong>Technique:</strong></p>
+                <ul class="pl-4">
+                    <li>• Inspirez 4 temps (ventre se gonfle)</li>
+                    <li>• Retenez 4 temps</li>
+                    <li>• Expirez 6 temps (ventre rentre)</li>
+                    <li>• Répétez 10 fois</li>
+                </ul>
+            </div>
+            <button class="quick-action-btn w-full" onclick="startBreathingExercise()">
+                Pratiquer la respiration
+            </button>
+        </div>
+
+        <!-- Vocalises -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">🎵 Vocalises Classiques</h3>
+            <p class="text-sm text-gray-600 mb-3">Exercices mélodiques pour la technique</p>
+            <div class="grid grid-cols-2 gap-2 mb-3">
+                <button class="quick-action-btn text-sm" onclick="playVocalise('do-re-mi')">
+                    Do-Ré-Mi-Ré-Do
+                </button>
+                <button class="quick-action-btn text-sm" onclick="playVocalise('arpege')">
+                    Arpèges Maj
+                </button>
+                <button class="quick-action-btn text-sm" onclick="playVocalise('gamme')">
+                    Gamme complète
+                </button>
+                <button class="quick-action-btn text-sm" onclick="playVocalise('intervalle')">
+                    Intervalles
+                </button>
+            </div>
+        </div>
+
+        <!-- Résonance -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">📢 Exercices de Résonance</h3>
+            <p class="text-sm text-gray-600 mb-3">Développez votre projection vocale</p>
+            <div class="grid grid-cols-3 gap-2">
+                <button class="quick-action-btn text-xs" onclick="startResonanceExercise('chest')">
+                    🫁 Poitrine
+                </button>
+                <button class="quick-action-btn text-xs" onclick="startResonanceExercise('head')">
+                    🧠 Tête
+                </button>
+                <button class="quick-action-btn text-xs" onclick="startResonanceExercise('mix')">
+                    🎭 Mix Voice
+                </button>
+            </div>
+        </div>
+
+        <!-- Articulation -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">🗣️ Articulation & Diction</h3>
+            <div class="grid grid-cols-2 gap-2">
+                <button class="quick-action-btn text-sm" onclick="startArticulationExercise('consonants')">
+                    Consonnes
+                </button>
+                <button class="quick-action-btn text-sm" onclick="startArticulationExercise('vowels')">
+                    Voyelles
+                </button>
+                <button class="quick-action-btn text-sm" onclick="startArticulationExercise('tongue')">
+                    Langue
+                </button>
+                <button class="quick-action-btn text-sm" onclick="startArticulationExercise('lips')">
+                    Lèvres
+                </button>
+            </div>
+        </div>
+
+        <!-- Tessiture -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">📈 Extension de Tessiture</h3>
+            <div class="mb-3">
+                <div class="flex justify-between text-xs mb-1">
+                    <span>Grave</span>
+                    <span>Aigu</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div class="bg-gradient-to-r from-blue-500 to-red-500 h-2 rounded-full" style="width: 60%"></div>
+                </div>
+                <p class="text-xs text-center mt-1">Tessiture actuelle: Do3 - Sol5</p>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <button class="quick-action-btn text-sm" onclick="startRangeExercise('low')">
+                    ⬇️ Graves
+                </button>
+                <button class="quick-action-btn text-sm" onclick="startRangeExercise('high')">
+                    ⬆️ Aigus
+                </button>
+            </div>
+        </div>
+
+        <!-- Vibrato -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">🌊 Technique du Vibrato</h3>
+            <p class="text-sm text-gray-600 mb-3">Oscillation naturelle de la voix</p>
+            <div class="grid grid-cols-2 gap-2">
+                <button class="quick-action-btn text-sm" onclick="startVibratoExercise('natural')">
+                    🎵 Naturel
+                </button>
+                <button class="quick-action-btn text-sm" onclick="startVibratoExercise('controlled')">
+                    🎛️ Contrôlé
+                </button>
+            </div>
+        </div>
+
+        <!-- Styles vocaux -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">🎭 Styles Vocaux</h3>
+            <div class="grid grid-cols-2 gap-2">
+                <button class="quick-action-btn text-sm" onclick="startStyleExercise('classical')">
+                    🎼 Classique
+                </button>
+                <button class="quick-action-btn text-sm" onclick="startStyleExercise('pop')">
+                    🎤 Pop/Rock
+                </button>
+                <button class="quick-action-btn text-sm" onclick="startStyleExercise('jazz')">
+                    🎷 Jazz
+                </button>
+                <button class="quick-action-btn text-sm" onclick="startStyleExercise('gospel')">
+                    ⛪ Gospel
+                </button>
+            </div>
+        </div>
+
+        <!-- Exercices avancés -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">🚀 Techniques Avancées</h3>
+            <div class="grid grid-cols-2 gap-2">
+                <button class="quick-action-btn text-sm" onclick="startAdvancedExercise('runs')">
+                    🏃 Runs & Riffs
+                </button>
+                <button class="quick-action-btn text-sm" onclick="startAdvancedExercise('belting')">
+                    💪 Belting
+                </button>
+                <button class="quick-action-btn text-sm" onclick="startAdvancedExercise('falsetto')">
+                    👻 Falsetto
+                </button>
+                <button class="quick-action-btn text-sm" onclick="startAdvancedExercise('growl')">
+                    🐺 Growl
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <div class="flex justify-around py-2">
+            <a href="../index.html" class="nav-item">
+                <span>🏠</span>
+                <span class="text-xs">Accueil</span>
+            </a>
+            <a href="voice.html" class="nav-item active">
+                <span>🎤</span>
+                <span class="text-xs">Voix</span>
+            </a>
+            <a href="instruments.html" class="nav-item">
+                <span>🎸</span>
+                <span class="text-xs">Instruments</span>
+            </a>
+            <a href="theory.html" class="nav-item">
+                <span>📚</span>
+                <span class="text-xs">Théorie</span>
+            </a>
+            <a href="tools.html" class="nav-item">
+                <span>🛠️</span>
+                <span class="text-xs">Outils</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <span>👤</span>
+                <span class="text-xs">Profil</span>
+            </a>
+        </div>
+    </nav>
+
+    <script src="../assets/js/app.js"></script>
+    <script>
+        // Fonction globale pour nettoyer tous les modals et overlays
+        function cleanupModals() {
+            // Supprimer tous les éléments avec position fixed
+            document.querySelectorAll('[style*="position: fixed"]').forEach(el => el.remove());
+            document.querySelectorAll('[style*="position:fixed"]').forEach(el => el.remove());
+            
+            // Nettoyer les styles du body
+            document.body.style.overflow = '';
+            document.body.style.filter = '';
+            document.body.style.opacity = '';
+            document.body.style.background = '';
+            
+            // Nettoyer les overlays potentiels
+            document.querySelectorAll('.modal-overlay, .overlay').forEach(el => el.remove());
+        }
+        
+        // Nettoyer au chargement de la page
+        document.addEventListener('DOMContentLoaded', cleanupModals);
+        
+        // Nettoyer quand on quitte la page
+        window.addEventListener('beforeunload', cleanupModals);
+        function startVocalWarmup() {
+            cleanupModals();
+            const steps = [
+                { text: "Respirations profondes", duration: 30 },
+                { text: "Lèvres qui vibrent 'Brrrr'", duration: 60 },
+                { text: "Sirènes 'Ng' grave → aigu", duration: 60 },
+                { text: "Gammes 'Ma-Me-Mi-Mo-Mu'", duration: 120 },
+                { text: "Vocalises 'La' Do-Ré-Mi-Fa-Sol", duration: 30 }
+            ];
+            
+            let currentStep = 0;
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0,0,0,0.8); display: flex; align-items: center;
+                justify-content: center; z-index: 1000;
+            `;
+            modal.onclick = (e) => { if(e.target === modal) cleanupModals(); };
+            
+            function showStep() {
+                if (currentStep >= steps.length) {
+                    cleanupModals();
+                    app.updateProgress('voice', 20);
+                    return;
+                }
+                
+                const step = steps[currentStep];
+                modal.innerHTML = `
+                    <div style="background: white; padding: 2rem; border-radius: 16px; text-align: center; max-width: 300px;">
+                        <h3>\u00c9tape ${currentStep + 1}/5</h3>
+                        <p style="margin: 1rem 0; font-weight: bold;">${step.text}</p>
+                        <div id="timer" style="font-size: 2rem; color: #D4AF37; margin: 1rem 0;">${step.duration}</div>
+                        <button onclick="nextStep()" style="background: #D4AF37; color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px;">Suivant</button>
+                    </div>
+                `;
+                
+                let timeLeft = step.duration;
+                const timer = modal.querySelector('#timer');
+                const interval = setInterval(() => {
+                    timeLeft--;
+                    timer.textContent = timeLeft;
+                    if (timeLeft <= 0) {
+                        clearInterval(interval);
+                        currentStep++;
+                        showStep();
+                    }
+                }, 1000);
+                
+                window.nextStep = () => {
+                    clearInterval(interval);
+                    currentStep++;
+                    showStep();
+                };
+            }
+            
+            document.body.appendChild(modal);
+            showStep();
+        }
+        
+        function startBreathingExercise() {
+            cleanupModals();
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0,0,0,0.8); display: flex; align-items: center;
+                justify-content: center; z-index: 1000;
+            `;
+            modal.onclick = (e) => { if(e.target === modal) cleanupModals(); };
+            
+            let cycle = 0;
+            const phases = ['Inspirez', 'Retenez', 'Expirez', 'Pause'];
+            const durations = [4, 4, 6, 2];
+            let currentPhase = 0;
+            
+            function runCycle() {
+                if (cycle >= 10) {
+                    cleanupModals();
+                    app.updateProgress('voice', 15);
+                    return;
+                }
+                
+                const phase = phases[currentPhase];
+                const duration = durations[currentPhase];
+                
+                modal.innerHTML = `
+                    <div style="background: white; padding: 2rem; border-radius: 16px; text-align: center;">
+                        <h3>Respiration ${cycle + 1}/10</h3>
+                        <p style="font-size: 1.5rem; margin: 1rem 0; color: #D4AF37;">${phase}</p>
+                        <div id="breath-timer" style="font-size: 3rem; font-weight: bold;">${duration}</div>
+                        <div style="width: 100px; height: 100px; border-radius: 50%; background: #D4AF37; margin: 1rem auto; transform: scale(${phase === 'Inspirez' ? '1.2' : '0.8'}); transition: transform 0.5s;"></div>
+                    </div>
+                `;
+                
+                let timeLeft = duration;
+                const timer = modal.querySelector('#breath-timer');
+                const interval = setInterval(() => {
+                    timeLeft--;
+                    timer.textContent = timeLeft;
+                    if (timeLeft <= 0) {
+                        clearInterval(interval);
+                        currentPhase++;
+                        if (currentPhase >= phases.length) {
+                            currentPhase = 0;
+                            cycle++;
+                        }
+                        runCycle();
+                    }
+                }, 1000);
+            }
+            
+            document.body.appendChild(modal);
+            runCycle();
+        }
+        
+        function playVocalise(type) {
+            const exercises = {
+                'do-re-mi': 'Do-Ré-Mi-Ré-Do sur toutes les tonalités',
+                'arpege': 'Arpèges majeurs: Do-Mi-Sol-Do',
+                'gamme': 'Gamme complète Do majeur montante et descendante',
+                'intervalle': 'Intervalles: Do-Ré, Do-Mi, Do-Fa, Do-Sol, Do-La, Do-Si, Do-Do'
+            };
+            
+            alert(`Exercice: ${exercises[type]}\n\nChantez lentement en suivant le piano virtuel dans la section Outils.`);
+            app.updateProgress('voice', 10);
+        }
+        
+        function startResonanceExercise(type) {
+            const exercises = {
+                chest: {
+                    title: "Résonance de Poitrine",
+                    steps: [
+                        "Main sur la poitrine",
+                        "Chantez 'Mmmm' grave (Do2-Sol3)",
+                        "Sentez les vibrations",
+                        "Ouvrez sur 'Mah' en gardant la résonance",
+                        "Répétez sur 'Moh', 'Mou'"
+                    ]
+                },
+                head: {
+                    title: "Résonance de Tête",
+                    steps: [
+                        "Main sur le nez/front",
+                        "Chantez 'Nnn' aigu (Sol4-Do6)",
+                        "Vibrations dans le masque",
+                        "Ouvrez sur 'Nah' léger",
+                        "Gardez la sensation de hauteur"
+                    ]
+                },
+                mix: {
+                    title: "Mix Voice",
+                    steps: [
+                        "Commencez en résonance de poitrine",
+                        "Montez progressivement 'Ng-Ah'",
+                        "Trouvez le point de bascule",
+                        "Mélangez les deux résonances",
+                        "Travaillez la zone de passage"
+                    ]
+                }
+            };
+            
+            showExerciseModal(exercises[type]);
+        }
+        
+        function startArticulationExercise(type) {
+            const exercises = {
+                consonants: {
+                    title: "Consonnes Précises",
+                    steps: [
+                        "Pa-Ta-Ka-Pa-Ta-Ka (rapide)",
+                        "Bra-Dra-Gra-Bra-Dra-Gra",
+                        "Tip-Top-Tup-Tip-Top-Tup",
+                        "Red-Leather-Yellow-Leather",
+                        "Articulez sans forcer"
+                    ]
+                },
+                vowels: {
+                    title: "Voyelles Pures",
+                    steps: [
+                        "A-E-I-O-U (bouche ronde)",
+                        "Gardez la même hauteur",
+                        "Transitions fluides",
+                        "Évitez les diphtongues",
+                        "Résonance constante"
+                    ]
+                },
+                tongue: {
+                    title: "Agilité de la Langue",
+                    steps: [
+                        "La-La-La (pointe mobile)",
+                        "Tra-Tre-Tri-Tro-Tru",
+                        "Roulements de R",
+                        "Tongue twisters",
+                        "Détente entre exercices"
+                    ]
+                },
+                lips: {
+                    title: "Mobilité des Lèvres",
+                    steps: [
+                        "Brrrr (lèvres qui vibrent)",
+                        "Ba-Be-Bi-Bo-Bu",
+                        "Ma-Me-Mi-Mo-Mu",
+                        "Wa-We-Wi-Wo-Wu",
+                        "Sourire/moue alternés"
+                    ]
+                }
+            };
+            
+            showExerciseModal(exercises[type]);
+        }
+        
+        function startRangeExercise(type) {
+            const exercises = {
+                low: {
+                    title: "Extension des Graves",
+                    steps: [
+                        "Commencez à votre note la plus basse confortable",
+                        "Descendez par demi-tons sur 'Mah'",
+                        "Gardez la résonance de poitrine",
+                        "Ne forcez jamais",
+                        "Remontez si tension"
+                    ]
+                },
+                high: {
+                    title: "Extension des Aigus",
+                    steps: [
+                        "Échauffement complet obligatoire",
+                        "Montez par demi-tons sur 'Nah'",
+                        "Utilisez la résonance de tête",
+                        "Gardez le larynx stable",
+                        "Arrêtez si douleur"
+                    ]
+                }
+            };
+            
+            showExerciseModal(exercises[type]);
+        }
+        
+        function startVibratoExercise(type) {
+            const exercises = {
+                natural: {
+                    title: "Vibrato Naturel",
+                    steps: [
+                        "Tenez une note longue et stable",
+                        "Relâchez complètement la gorge",
+                        "Laissez le vibrato apparaître naturellement",
+                        "Ne forcez aucun mouvement",
+                        "Patience - cela vient avec le temps"
+                    ]
+                },
+                controlled: {
+                    title: "Contrôle du Vibrato",
+                    steps: [
+                        "Note tenue sans vibrato",
+                        "Ajoutez le vibrato progressivement",
+                        "Variez la vitesse (lent/rapide)",
+                        "Contrôlez l'amplitude",
+                        "Alternez avec/sans vibrato"
+                    ]
+                }
+            };
+            
+            showExerciseModal(exercises[type]);
+        }
+        
+        function startStyleExercise(style) {
+            const exercises = {
+                classical: {
+                    title: "Style Classique",
+                    steps: [
+                        "Posture droite, respiration basse",
+                        "Voyelles pures et rondes",
+                        "Legato et phrasé musical",
+                        "Vibrato contrôlé",
+                        "Diction claire en latin/italien"
+                    ]
+                },
+                pop: {
+                    title: "Style Pop/Rock",
+                    steps: [
+                        "Mix voice prédominant",
+                        "Attaques franches",
+                        "Utilisation du belting modéré",
+                        "Effets vocaux (runs, breaks)",
+                        "Émotion et attitude"
+                    ]
+                },
+                jazz: {
+                    title: "Style Jazz",
+                    steps: [
+                        "Phrasé swing et syncopé",
+                        "Scat singing (improvisation)",
+                        "Vibrato expressif",
+                        "Bends et glissandos",
+                        "Interaction avec les instruments"
+                    ]
+                },
+                gospel: {
+                    title: "Style Gospel",
+                    steps: [
+                        "Puissance et émotion",
+                        "Melismes et ornementations",
+                        "Call and response",
+                        "Belting avec soutien",
+                        "Spiritualité dans l'interprétation"
+                    ]
+                }
+            };
+            
+            showExerciseModal(exercises[style]);
+        }
+        
+        function startAdvancedExercise(technique) {
+            const exercises = {
+                runs: {
+                    title: "Runs & Riffs",
+                    steps: [
+                        "Commencez lentement sur gammes",
+                        "Accélérez progressivement",
+                        "Gardez chaque note distincte",
+                        "Travaillez par petits groupes",
+                        "Ajoutez l'expression musicale"
+                    ]
+                },
+                belting: {
+                    title: "Technique du Belting",
+                    steps: [
+                        "ATTENTION: Technique avancée!",
+                        "Échauffement complet obligatoire",
+                        "Soutien abdominal fort",
+                        "Larynx légèrement élevé",
+                        "Arrêtez si fatigue vocale"
+                    ]
+                },
+                falsetto: {
+                    title: "Falsetto/Voix de Tête",
+                    steps: [
+                        "Relâchement des cordes vocales",
+                        "Son aérien et léger",
+                        "Pas de pression",
+                        "Travaillez la connexion avec la voix de poitrine",
+                        "Utilisez pour les aigus doux"
+                    ]
+                },
+                growl: {
+                    title: "Growl/Distorsion",
+                    steps: [
+                        "ATTENTION: Technique risquée!",
+                        "Commencez par des 'Ah' rugueux",
+                        "Utilisez les fausses cordes vocales",
+                        "Hydratation constante",
+                        "Limitez la pratique (5-10 min max)"
+                    ]
+                }
+            };
+            
+            showExerciseModal(exercises[technique]);
+        }
+        
+        function showExerciseModal(exercise) {
+            cleanupModals();
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(17, 24, 39, 0.75); backdrop-filter: blur(8px);
+                display: flex; align-items: center; justify-content: center;
+                z-index: 1000; padding: 2rem; animation: fadeIn 0.3s ease;
+            `;
+            modal.onclick = (e) => { if(e.target === modal) cleanupModals(); };
+            
+            modal.innerHTML = `
+                <div style="
+                    background: white; padding: 2.5rem; border-radius: 24px;
+                    max-width: 480px; width: 100%; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                    border: 1px solid #e5e7eb; position: relative; overflow: hidden;
+                ">
+                    <div style="
+                        position: absolute; top: 0; left: 0; right: 0; height: 4px;
+                        background: linear-gradient(90deg, #667eea, #06b6d4);
+                    "></div>
+                    
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <div style="
+                            width: 64px; height: 64px; background: linear-gradient(135deg, #667eea, #06b6d4);
+                            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+                            margin: 0 auto 1rem; font-size: 1.5rem;
+                        ">🎵</div>
+                        <h3 style="
+                            color: #1f2937; font-size: 1.5rem; font-weight: 700;
+                            margin-bottom: 0.5rem; line-height: 1.2;
+                        ">${exercise.title}</h3>
+                        <p style="color: #6b7280; font-size: 0.9rem;">Suivez les étapes ci-dessous</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 2.5rem; max-height: 300px; overflow-y: auto;">
+                        ${exercise.steps.map((step, index) => `
+                            <div style="
+                                display: flex; align-items: flex-start; margin-bottom: 1.25rem;
+                                padding: 1rem; background: #f9fafb; border-radius: 16px;
+                                border: 1px solid #e5e7eb; transition: all 0.2s ease;
+                            ">
+                                <div style="
+                                    background: linear-gradient(135deg, #667eea, #06b6d4);
+                                    color: white; border-radius: 50%; width: 28px; height: 28px;
+                                    display: flex; align-items: center; justify-content: center;
+                                    font-size: 0.8rem; font-weight: 700; margin-right: 1rem;
+                                    flex-shrink: 0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                                ">${index + 1}</div>
+                                <p style="
+                                    margin: 0; font-size: 0.95rem; line-height: 1.5;
+                                    color: #374151; font-weight: 500;
+                                ">${step}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem;">
+                        <button onclick="cleanupModals()" style="
+                            flex: 1; background: #f3f4f6; color: #374151; border: none;
+                            padding: 1rem 1.5rem; border-radius: 12px; font-weight: 600;
+                            cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem;
+                        ">Fermer</button>
+                        <button onclick="startExerciseTimer('${exercise.title}')" style="
+                            flex: 2; background: linear-gradient(135deg, #667eea, #06b6d4);
+                            color: white; border: none; padding: 1rem 1.5rem; border-radius: 12px;
+                            font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+                            font-size: 0.9rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                        ">🚀 Commencer l'exercice</button>
+                    </div>
+                </div>
+                <style>
+                    @keyframes fadeIn {
+                        from { opacity: 0; transform: scale(0.95); }
+                        to { opacity: 1; transform: scale(1); }
+                    }
+                </style>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        function startExerciseTimer(exerciseName) {
+            cleanupModals();
+            
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                background: linear-gradient(135deg, rgba(17, 24, 39, 0.95), rgba(55, 65, 81, 0.95));
+                backdrop-filter: blur(12px); display: flex; align-items: center;
+                justify-content: center; z-index: 1000;
+            `;
+            
+            let timeLeft = 300; // 5 minutes
+            
+            function updateTimer() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                const progress = ((300 - timeLeft) / 300) * 100;
+                
+                modal.innerHTML = `
+                    <div style="
+                        background: white; padding: 3rem; border-radius: 32px;
+                        text-align: center; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                        max-width: 400px; width: 90%; position: relative; overflow: hidden;
+                    ">
+                        <div style="
+                            position: absolute; top: 0; left: 0; height: 4px;
+                            background: linear-gradient(90deg, #667eea, #06b6d4);
+                            width: ${progress}%; transition: width 1s ease;
+                        "></div>
+                        
+                        <div style="
+                            width: 80px; height: 80px; background: linear-gradient(135deg, #667eea, #06b6d4);
+                            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+                            margin: 0 auto 1.5rem; font-size: 2rem; animation: bounce 2s infinite;
+                        ">🎤</div>
+                        
+                        <h3 style="
+                            color: #1f2937; font-size: 1.25rem; font-weight: 700;
+                            margin-bottom: 2rem; line-height: 1.3;
+                        ">${exerciseName}</h3>
+                        
+                        <div style="
+                            font-size: 3.5rem; font-weight: 800; margin: 2rem 0;
+                            background: linear-gradient(135deg, #667eea, #06b6d4);
+                            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+                            background-clip: text; letter-spacing: -0.02em;
+                        ">${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}</div>
+                        
+                        <div style="
+                            width: 100%; height: 8px; background: #e5e7eb; border-radius: 4px;
+                            margin: 2rem 0; overflow: hidden;
+                        ">
+                            <div style="
+                                height: 100%; background: linear-gradient(90deg, #667eea, #06b6d4);
+                                width: ${progress}%; transition: width 1s ease; border-radius: 4px;
+                            "></div>
+                        </div>
+                        
+                        <p style="color: #6b7280; font-size: 0.9rem; margin-bottom: 2rem;">
+                            Temps écoulé: ${Math.floor((300 - timeLeft) / 60)}:${((300 - timeLeft) % 60).toString().padStart(2, '0')}
+                        </p>
+                        
+                        <button onclick="cleanupModals(); app.updateProgress('voice', 20);" style="
+                            background: linear-gradient(135deg, #10b981, #059669); color: white;
+                            border: none; padding: 1rem 2rem; border-radius: 16px;
+                            font-weight: 600; cursor: pointer; font-size: 1rem;
+                            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                            transition: all 0.3s ease;
+                        ">✓ Terminer l'exercice</button>
+                    </div>
+                    <style>
+                        @keyframes bounce {
+                            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+                            40% { transform: translateY(-10px); }
+                            60% { transform: translateY(-5px); }
+                        }
+                    </style>
+                `;
+                
+                if (timeLeft <= 0) {
+                    modal.remove();
+                    app.updateProgress('voice', 20);
+                    return;
+                }
+                
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
+            }
+            
+            document.body.appendChild(modal);
+            updateTimer();
+        }
+    </script>
+</body>
+</html>

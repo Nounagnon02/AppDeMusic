@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaestroSpirit - Accueil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+    <div class="header-section p-6 text-center">
+        <h1 class="text-2xl font-display mb-2">🎵 MaestroSpirit</h1>
+        <p class="text-sm opacity-90">Votre compagnon d'apprentissage musical</p>
+    </div>
+
+    <div class="px-4 py-6">
+        <!-- Bienvenue -->
+        <div class="progress-card p-6 mb-6 text-center">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🎼</div>
+            <h2 class="text-xl font-display mb-3">Bienvenue dans MaestroSpirit</h2>
+            <p class="text-gray-600 mb-4">Développez vos compétences musicales avec des exercices authentiques et une approche pédagogique moderne.</p>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                    <div class="text-2xl mb-1">🎤</div>
+                    <div class="text-xs font-semibold">Technique Vocale</div>
+                </div>
+                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                    <div class="text-2xl mb-1">🎸</div>
+                    <div class="text-xs font-semibold">Instruments</div>
+                </div>
+                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                    <div class="text-2xl mb-1">📚</div>
+                    <div class="text-xs font-semibold">Théorie</div>
+                </div>
+                <div class="text-center p-3 bg-gray-50 rounded-lg">
+                    <div class="text-2xl mb-1">🛠️</div>
+                    <div class="text-xs font-semibold">Outils</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Défi du jour -->
+        <div class="daily-challenge p-4 mb-4">
+            <h3 class="font-semibold mb-3">🎯 Défi du Jour</h3>
+            <p class="text-sm mb-3" id="daily-challenge-text">Complétez 3 exercices de respiration diaphragmatique</p>
+            <div class="progress-bar mb-3">
+                <div class="progress-fill" id="daily-progress" style="width: 0%"></div>
+            </div>
+            <p class="text-xs text-gray-600" id="daily-progress-text">0/3 exercices complétés</p>
+        </div>
+
+        <!-- Accès rapide -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">🚀 Accès Rapide</h3>
+            <div class="grid grid-cols-2 gap-3">
+                <a href="pages/voice.html" class="quick-action-btn text-center">
+                    🎤 Exercices Vocaux
+                </a>
+                <a href="pages/tools.html" class="quick-action-btn text-center">
+                    🎹 Piano Virtuel
+                </a>
+                <a href="pages/theory.html" class="quick-action-btn text-center">
+                    📚 Quiz Théorie
+                </a>
+                <a href="pages/profile.html" class="quick-action-btn text-center">
+                    👤 Mon Profil
+                </a>
+            </div>
+        </div>
+
+        <!-- Progression -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">📈 Ma Progression</h3>
+            <div class="space-y-3">
+                <div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span>Voix & Chant</span>
+                        <span id="voice-progress-text">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="voice-progress" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span>Instruments</span>
+                        <span id="instruments-progress-text">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="instruments-progress" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span>Théorie</span>
+                        <span id="theory-progress-text">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="theory-progress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Citation -->
+        <div class="quote-section p-4 mb-4">
+            <p class="text-sm italic mb-2" id="daily-quote">"La musique est le langage universel de l'humanité."</p>
+            <p class="text-xs text-gray-500" id="quote-author">- Henry Wadsworth Longfellow</p>
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <div class="flex justify-around py-2">
+            <a href="index.html" class="nav-item active">
+                <span>🏠</span>
+                <span class="text-xs">Accueil</span>
+            </a>
+            <a href="pages/voice.html" class="nav-item">
+                <span>🎤</span>
+                <span class="text-xs">Voix</span>
+            </a>
+            <a href="pages/instruments.html" class="nav-item">
+                <span>🎸</span>
+                <span class="text-xs">Instruments</span>
+            </a>
+            <a href="pages/theory.html" class="nav-item">
+                <span>📚</span>
+                <span class="text-xs">Théorie</span>
+            </a>
+            <a href="pages/tools.html" class="nav-item">
+                <span>🛠️</span>
+                <span class="text-xs">Outils</span>
+            </a>
+            <a href="pages/profile.html" class="nav-item">
+                <span>👤</span>
+                <span class="text-xs">Profil</span>
+            </a>
+        </div>
+    </nav>
+
+    <script src="assets/js/app.js"></script>
+    <script>
+        const quotes = [
+            { text: "La musique est le langage universel de l'humanité.", author: "Henry Wadsworth Longfellow" },
+            { text: "La musique peut changer le monde car elle peut changer les gens.", author: "Bono" },
+            { text: "Sans musique, la vie serait une erreur.", author: "Friedrich Nietzsche" },
+            { text: "La musique est la poésie de l'air.", author: "Jean Paul Richter" },
+            { text: "Là où les mots échouent, la musique parle.", author: "Hans Christian Andersen" }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Citation aléatoire
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('daily-quote').textContent = `"${randomQuote.text}"`;
+            document.getElementById('quote-author').textContent = `- ${randomQuote.author}`;
+
+            // Charger la progression
+            loadProgress();
+            
+            // Initialiser l'app si pas déjà fait
+            if (!localStorage.getItem('maestroUser')) {
+                localStorage.setItem('maestroUser', JSON.stringify({
+                    name: 'Musicien',
+                    joinDate: new Date().toISOString()
+                }));
+            }
+        });
+
+        function loadProgress() {
+            const progress = JSON.parse(localStorage.getItem('maestroProgress')) || {};
+            
+            // Mettre à jour les barres de progression
+            Object.keys(progress).forEach(category => {
+                const categoryProgress = progress[category];
+                const progressElement = document.getElementById(`${category}-progress`);
+                const textElement = document.getElementById(`${category}-progress-text`);
+                
+                if (progressElement && textElement) {
+                    const percentage = categoryProgress.xp || 0;
+                    progressElement.style.width = `${percentage}%`;
+                    textElement.textContent = `${percentage}%`;
+                }
+            });
+
+            // Défi du jour (exemple simple)
+            const voiceProgress = progress.voice?.totalSessions || 0;
+            const dailyProgress = Math.min(voiceProgress, 3);
+            document.getElementById('daily-progress').style.width = `${(dailyProgress / 3) * 100}%`;
+            document.getElementById('daily-progress-text').textContent = `${dailyProgress}/3 exercices complétés`;
+        }
+    </script>
+</body>
+</html>

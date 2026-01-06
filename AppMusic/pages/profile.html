@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil - MaestroSpirit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <style>
+        body { padding-top: 2rem; padding-bottom: 8rem; }
+        .profile-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white; padding: 2rem; text-align: center; border-radius: 0 0 20px 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .avatar {
+            width: 80px; height: 80px; border-radius: 50%;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; margin: 0 auto 1rem; border: 2px solid rgba(255,255,255,0.3);
+        }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin: 1rem 0;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            padding: 1.5rem; border-radius: 16px; text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); }
+        .stat-number {
+            font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .badge-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1rem 0;
+        }
+        .badge-item {
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            padding: 1rem; border-radius: 16px; text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .badge-item:hover { transform: translateY(-2px); }
+        .badge-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .progress-chart {
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            padding: 1.5rem; border-radius: 16px; margin: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .chart-bar { display: flex; align-items: center; margin: 0.75rem 0; }
+        .chart-label { width: 80px; font-size: 0.9rem; font-weight: 600; color: var(--text-dark); }
+        .chart-progress {
+            flex: 1; height: 8px; background: var(--gray-light); border-radius: 4px;
+            margin: 0 0.75rem; overflow: hidden;
+        }
+        .chart-fill {
+            height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px; transition: width 0.8s ease;
+        }
+        .settings-section {
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            padding: 1.5rem; border-radius: 16px; margin: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .setting-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 0; border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .setting-item:last-child { border-bottom: none; }
+        .toggle {
+            width: 50px; height: 25px; background: var(--gray-light); border-radius: 25px;
+            position: relative; cursor: pointer; transition: all 0.3s ease;
+        }
+        .toggle.active { background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+        .toggle::after {
+            content: ''; width: 21px; height: 21px; background: white; border-radius: 50%;
+            position: absolute; top: 2px; left: 2px; transition: transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .toggle.active::after { transform: translateX(25px); }
+        .progress-card {
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .action-btn-export {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white; border: none; border-radius: 16px; padding: 1.25rem;
+            font-weight: 700; font-size: 1rem; cursor: pointer;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+            transition: transform 0.3s ease;
+        }
+        .action-btn-export:hover {
+            transform: translateY(-3px);
+        }
+        .action-btn-reset {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white; border: none; border-radius: 16px; padding: 1.25rem;
+            font-weight: 700; font-size: 1rem; cursor: pointer;
+            box-shadow: 0 8px 32px rgba(239, 68, 68, 0.3);
+            transition: transform 0.3s ease;
+        }
+        .action-btn-reset:hover {
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-header">
+        <div class="avatar" id="user-avatar">👤</div>
+        <h1 class="text-xl font-display" id="user-name">Musicien</h1>
+        <p class="text-sm opacity-90" id="user-level">Niveau 1 - Débutant</p>
+        <p class="text-xs opacity-75" id="join-date">Membre depuis aujourd'hui</p>
+    </div>
+
+    <div class="px-4 py-6">
+        <!-- Statistiques -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="total-xp">0</div>
+                <div class="text-xs text-gray-600">XP Total</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="current-streak">0</div>
+                <div class="text-xs text-gray-600">Série Actuelle</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="total-sessions">0</div>
+                <div class="text-xs text-gray-600">Sessions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="badges-count">0</div>
+                <div class="text-xs text-gray-600">Badges</div>
+            </div>
+        </div>
+
+        <!-- Graphique de progression -->
+        <div class="progress-chart">
+            <h3 class="font-semibold mb-3">Progression par Catégorie</h3>
+            <div class="chart-bar">
+                <div class="chart-label">Voix</div>
+                <div class="chart-progress">
+                    <div class="chart-fill" id="voice-chart" style="width: 0%"></div>
+                </div>
+                <div class="text-xs" id="voice-percent">0%</div>
+            </div>
+            <div class="chart-bar">
+                <div class="chart-label">Instruments</div>
+                <div class="chart-progress">
+                    <div class="chart-fill" id="instruments-chart" style="width: 0%"></div>
+                </div>
+                <div class="text-xs" id="instruments-percent">0%</div>
+            </div>
+            <div class="chart-bar">
+                <div class="chart-label">Théorie</div>
+                <div class="chart-progress">
+                    <div class="chart-fill" id="theory-chart" style="width: 0%"></div>
+                </div>
+                <div class="text-xs" id="theory-percent">0%</div>
+            </div>
+            <div class="chart-bar">
+                <div class="chart-label">Spiritualité</div>
+                <div class="chart-progress">
+                    <div class="chart-fill" id="spirituality-chart" style="width: 0%"></div>
+                </div>
+                <div class="text-xs" id="spirituality-percent">0%</div>
+            </div>
+        </div>
+
+        <!-- Badges -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">🏆 Mes Badges</h3>
+            <div class="badge-grid" id="badges-container">
+                <div class="badge-item">
+                    <div class="badge-icon">🎯</div>
+                    <div class="text-xs">Premier Pas</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Défis -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">🎯 Défis Actifs</h3>
+            <div id="challenges-container">
+                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg mb-2">
+                    <div>
+                        <div class="font-semibold text-sm">Première session</div>
+                        <div class="text-xs text-gray-600">Complétez votre premier exercice</div>
+                    </div>
+                    <div class="text-xs text-gold">0/1</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paramètres -->
+        <div class="settings-section">
+            <h3 class="font-semibold mb-3">⚙️ Paramètres</h3>
+            
+            <div class="setting-item">
+                <div>
+                    <div class="font-semibold text-sm">Notifications</div>
+                    <div class="text-xs text-gray-600">Rappels d'entraînement</div>
+                </div>
+                <div class="toggle" id="notifications-toggle"></div>
+            </div>
+            
+            <div class="setting-item">
+                <div>
+                    <div class="font-semibold text-sm">Mode Sombre</div>
+                    <div class="text-xs text-gray-600">Interface sombre</div>
+                </div>
+                <div class="toggle" id="dark-mode-toggle"></div>
+            </div>
+            
+            <div class="setting-item">
+                <div>
+                    <div class="font-semibold text-sm">Sons</div>
+                    <div class="text-xs text-gray-600">Effets sonores</div>
+                </div>
+                <div class="toggle active" id="sounds-toggle"></div>
+            </div>
+            
+            <div class="setting-item">
+                <div>
+                    <div class="font-semibold text-sm">Synchronisation</div>
+                    <div class="text-xs text-gray-600">Sauvegarde cloud</div>
+                </div>
+                <div class="toggle" id="sync-toggle"></div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <button class="action-btn-export" onclick="exportData()">
+                📊 Exporter Données
+            </button>
+            <button class="action-btn-reset" onclick="resetProgress()">
+                🔄 Réinitialiser
+            </button>
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <div class="flex justify-around py-2">
+            <a href="../index.html" class="nav-item">
+                <span>🏠</span>
+                <span class="text-xs">Accueil</span>
+            </a>
+            <a href="voice.html" class="nav-item">
+                <span>🎤</span>
+                <span class="text-xs">Voix</span>
+            </a>
+            <a href="instruments.html" class="nav-item">
+                <span>🎸</span>
+                <span class="text-xs">Instruments</span>
+            </a>
+            <a href="theory.html" class="nav-item">
+                <span>📚</span>
+                <span class="text-xs">Théorie</span>
+            </a>
+            <a href="tools.html" class="nav-item">
+                <span>🛠️</span>
+                <span class="text-xs">Outils</span>
+            </a>
+            <a href="profile.html" class="nav-item active">
+                <span>👤</span>
+                <span class="text-xs">Profil</span>
+            </a>
+        </div>
+    </nav>
+
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/gamification.js"></script>
+    <script>
+        function cleanupModals() {
+            document.querySelectorAll('[style*="position: fixed"]').forEach(el => el.remove());
+            document.querySelectorAll('[style*="position:fixed"]').forEach(el => el.remove());
+            document.body.style.overflow = '';
+            document.body.style.filter = '';
+            document.body.style.opacity = '';
+            document.body.style.background = '';
+        }
+        document.addEventListener('DOMContentLoaded', cleanupModals);
+        let gamification;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            gamification = new GamificationSystem();
+            loadProfile();
+            setupToggles();
+        });
+
+        function loadProfile() {
+            // Charger les données utilisateur
+            const userData = JSON.parse(localStorage.getItem('maestroUser')) || {};
+            const progressData = JSON.parse(localStorage.getItem('maestroProgress')) || {};
+            
+            document.getElementById('user-name').textContent = userData.name || 'Musicien';
+            
+            // Calculer le niveau total
+            let totalXP = 0;
+            Object.values(progressData).forEach(category => {
+                totalXP += (category.level - 1) * 100 + category.xp;
+            });
+            
+            const overallLevel = Math.floor(totalXP / 100) + 1;
+            document.getElementById('user-level').textContent = `Niveau ${overallLevel}`;
+            
+            if (userData.joinDate) {
+                const joinDate = new Date(userData.joinDate);
+                document.getElementById('join-date').textContent = 
+                    `Membre depuis ${joinDate.toLocaleDateString()}`;
+            }
+
+            // Statistiques
+            document.getElementById('total-xp').textContent = totalXP;
+            document.getElementById('current-streak').textContent = gamification.streaks.current;
+            
+            let totalSessions = 0;
+            Object.values(progressData).forEach(category => {
+                totalSessions += category.totalSessions || 0;
+            });
+            document.getElementById('total-sessions').textContent = totalSessions;
+            document.getElementById('badges-count').textContent = gamification.badges.length;
+
+            // Graphiques de progression
+            updateProgressCharts(progressData);
+            
+            // Badges
+            displayBadges();
+            
+            // Défis
+            displayChallenges();
+        }
+
+        function updateProgressCharts(progressData) {
+            Object.keys(progressData).forEach(category => {
+                const progress = progressData[category];
+                const percentage = progress.xp;
+                
+                const chartElement = document.getElementById(`${category}-chart`);
+                const percentElement = document.getElementById(`${category}-percent`);
+                
+                if (chartElement && percentElement) {
+                    chartElement.style.width = `${percentage}%`;
+                    percentElement.textContent = `${percentage}%`;
+                }
+            });
+        }
+
+        function displayBadges() {
+            const container = document.getElementById('badges-container');
+            container.innerHTML = '';
+            
+            if (gamification.badges.length === 0) {
+                container.innerHTML = '<div class="text-center text-gray-500 text-sm">Aucun badge encore</div>';
+                return;
+            }
+            
+            gamification.badges.forEach(badge => {
+                const badgeElement = document.createElement('div');
+                badgeElement.className = 'badge-item';
+                badgeElement.innerHTML = `
+                    <div class="badge-icon">${badge.icon}</div>
+                    <div class="text-xs">${badge.name}</div>
+                `;
+                container.appendChild(badgeElement);
+            });
+        }
+
+        function displayChallenges() {
+            const container = document.getElementById('challenges-container');
+            container.innerHTML = '';
+            
+            gamification.challenges.slice(0, 3).forEach(challenge => {
+                const challengeElement = document.createElement('div');
+                challengeElement.className = `flex justify-between items-center p-3 rounded-lg mb-2 ${
+                    challenge.completed ? 'bg-green-100' : 'bg-gray-50'
+                }`;
+                challengeElement.innerHTML = `
+                    <div>
+                        <div class="font-semibold text-sm">${challenge.title}</div>
+                        <div class="text-xs text-gray-600">${challenge.description}</div>
+                    </div>
+                    <div class="text-xs ${challenge.completed ? 'text-green-600' : 'text-gold'}">
+                        ${challenge.completed ? '✅' : `${challenge.progress || 0}/${challenge.target || 1}`}
+                    </div>
+                `;
+                container.appendChild(challengeElement);
+            });
+        }
+
+        function setupToggles() {
+            const toggles = document.querySelectorAll('.toggle');
+            
+            toggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    toggle.classList.toggle('active');
+                    
+                    // Sauvegarder les préférences
+                    const settings = JSON.parse(localStorage.getItem('maestroSettings')) || {};
+                    settings[toggle.id] = toggle.classList.contains('active');
+                    localStorage.setItem('maestroSettings', JSON.stringify(settings));
+                });
+            });
+            
+            // Charger les préférences
+            const settings = JSON.parse(localStorage.getItem('maestroSettings')) || {};
+            Object.keys(settings).forEach(settingId => {
+                const toggle = document.getElementById(settingId);
+                if (toggle && settings[settingId]) {
+                    toggle.classList.add('active');
+                }
+            });
+        }
+
+        function exportData() {
+            const data = {
+                user: JSON.parse(localStorage.getItem('maestroUser')) || {},
+                progress: JSON.parse(localStorage.getItem('maestroProgress')) || {},
+                badges: gamification?.badges || [],
+                streaks: gamification?.streaks || { current: 0, best: 0 },
+                achievements: gamification?.achievements || [],
+                settings: JSON.parse(localStorage.getItem('maestroSettings')) || {},
+                exportDate: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `maestrospirit_backup_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            
+            URL.revokeObjectURL(url);
+            
+            alert('Données exportées avec succès !');
+        }
+
+        function resetProgress() {
+            if (confirm('⚠️ ATTENTION: Cette action supprimera définitivement toute votre progression, badges et statistiques.\n\nÊtes-vous absolument sûr de vouloir continuer ?')) {
+                // Sauvegarder les paramètres utilisateur
+                const userSettings = localStorage.getItem('maestroSettings');
+                const userName = JSON.parse(localStorage.getItem('maestroUser') || '{}').name;
+                
+                // Supprimer toutes les données de progression
+                localStorage.removeItem('maestroProgress');
+                localStorage.removeItem('maestroBadges');
+                localStorage.removeItem('maestroStreaks');
+                localStorage.removeItem('maestroAchievements');
+                localStorage.removeItem('maestroChallenges');
+                
+                // Réinitialiser l'utilisateur en gardant le nom
+                localStorage.setItem('maestroUser', JSON.stringify({
+                    name: userName || 'Musicien',
+                    joinDate: new Date().toISOString()
+                }));
+                
+                // Restaurer les paramètres
+                if (userSettings) {
+                    localStorage.setItem('maestroSettings', userSettings);
+                }
+                
+                alert('✅ Progression réinitialisée avec succès !\nVos paramètres ont été conservés.');
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>

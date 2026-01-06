@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Théorie - MaestroSpirit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <div class="header-section p-6 text-center">
+        <h1 class="text-2xl font-display mb-2">📚 Théorie Musicale</h1>
+        <p class="text-sm opacity-90">Approfondissez vos connaissances</p>
+    </div>
+
+    <div class="px-4 py-6">
+        <!-- Quiz Intervalles -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">🎼 Quiz Intervalles</h3>
+            <div id="interval-quiz" style="display: none;">
+                <p id="interval-question" class="mb-3 font-semibold"></p>
+                <div id="interval-options" class="grid grid-cols-2 gap-2 mb-3"></div>
+                <div id="interval-result" class="text-center" style="display: none;"></div>
+            </div>
+            <button id="start-interval-quiz" class="quick-action-btn w-full">
+                Quiz Intervalles
+            </button>
+        </div>
+
+        <!-- Quiz Accords -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">🎹 Quiz Accords</h3>
+            <div id="chord-quiz" style="display: none;">
+                <p id="chord-question" class="mb-3 font-semibold"></p>
+                <div id="chord-options" class="grid grid-cols-2 gap-2 mb-3"></div>
+                <div id="chord-result" class="text-center" style="display: none;"></div>
+            </div>
+            <button id="start-chord-quiz" class="quick-action-btn w-full">
+                Quiz Accords
+            </button>
+        </div>
+
+        <!-- Quiz Gammes -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">🎵 Quiz Gammes</h3>
+            <div id="scale-quiz" style="display: none;">
+                <p id="scale-question" class="mb-3 font-semibold"></p>
+                <div id="scale-options" class="grid grid-cols-2 gap-2 mb-3"></div>
+                <div id="scale-result" class="text-center" style="display: none;"></div>
+            </div>
+            <button id="start-scale-quiz" class="quick-action-btn w-full">
+                Quiz Gammes
+            </button>
+        </div>
+
+        <!-- Analyse harmonique -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">🔍 Analyse Harmonique</h3>
+            <div class="grid grid-cols-2 gap-2">
+                <button class="quick-action-btn text-sm" onclick="startHarmonyQuiz('progressions')">
+                    Progressions
+                </button>
+                <button class="quick-action-btn text-sm" onclick="startHarmonyQuiz('modulations')">
+                    Modulations
+                </button>
+                <button class="quick-action-btn text-sm" onclick="startHarmonyQuiz('cadences')">
+                    Cadences
+                </button>
+                <button class="quick-action-btn text-sm" onclick="startHarmonyQuiz('functions')">
+                    Fonctions
+                </button>
+            </div>
+        </div>
+
+        <!-- Modes musicaux -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">🌍 Modes Musicaux</h3>
+            <div class="text-sm mb-3">
+                <p><strong>Modes grecs (sur Do):</strong></p>
+                <ul class="pl-4 text-xs">
+                    <li>• <strong>Ionien:</strong> Do-Ré-Mi-Fa-Sol-La-Si (Majeur)</li>
+                    <li>• <strong>Dorien:</strong> Ré-Mi-Fa-Sol-La-Si-Do</li>
+                    <li>• <strong>Phrygien:</strong> Mi-Fa-Sol-La-Si-Do-Ré</li>
+                    <li>• <strong>Lydien:</strong> Fa-Sol-La-Si-Do-Ré-Mi</li>
+                    <li>• <strong>Mixolydien:</strong> Sol-La-Si-Do-Ré-Mi-Fa</li>
+                    <li>• <strong>Éolien:</strong> La-Si-Do-Ré-Mi-Fa-Sol (Mineur)</li>
+                    <li>• <strong>Locrien:</strong> Si-Do-Ré-Mi-Fa-Sol-La</li>
+                </ul>
+            </div>
+            <button class="quick-action-btn w-full" onclick="startModesQuiz()">
+                Quiz Modes
+            </button>
+        </div>
+
+        <!-- Clarifications conceptuelles -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">💡 Clarifications Conceptuelles</h3>
+            <div class="grid grid-cols-2 gap-2">
+                <button class="quick-action-btn text-sm" onclick="showConcept('intervals')">
+                    📏 Intervalles
+                </button>
+                <button class="quick-action-btn text-sm" onclick="showConcept('scales')">
+                    🎼 Gammes
+                </button>
+                <button class="quick-action-btn text-sm" onclick="showConcept('chords')">
+                    🎹 Accords
+                </button>
+                <button class="quick-action-btn text-sm" onclick="showConcept('rhythm')">
+                    🥁 Rythme
+                </button>
+                <button class="quick-action-btn text-sm" onclick="showConcept('harmony')">
+                    🎵 Harmonie
+                </button>
+                <button class="quick-action-btn text-sm" onclick="showConcept('melody')">
+                    🎶 Mélodie
+                </button>
+                <button class="quick-action-btn text-sm" onclick="showConcept('tempo')">
+                    ⏱️ Tempo
+                </button>
+                <button class="quick-action-btn text-sm" onclick="showConcept('dynamics')">
+                    🔊 Nuances
+                </button>
+                <button class="quick-action-btn text-sm" onclick="showConcept('articulation')">
+                    🎭 Articulation
+                </button>
+                <button class="quick-action-btn text-sm" onclick="showConcept('form')">
+                    🏢 Forme
+                </button>
+                <button class="quick-action-btn text-sm" onclick="showConcept('transposition')">
+                    🔄 Transposition
+                </button>
+                <button class="quick-action-btn text-sm" onclick="showConcept('ear-training')">
+                    👂 Formation Auditive
+                </button>
+            </div>
+        </div>
+
+        <!-- Théorie de base -->
+        <div class="progress-card p-4 mb-4">
+            <h3 class="font-semibold mb-3">📚 Théorie de Base</h3>
+            <div class="text-sm mb-3">
+                <p><strong>Notes naturelles:</strong> Do Ré Mi Fa Sol La Si</p>
+                <p><strong>Altérations:</strong> # (dièse) = +1/2 ton, b (bémol) = -1/2 ton</p>
+                <p><strong>Intervalles principaux:</strong></p>
+                <ul class="pl-4">
+                    <li>• Seconde majeure: 1 ton (Do-Ré)</li>
+                    <li>• Tierce majeure: 2 tons (Do-Mi)</li>
+                    <li>• Quarte juste: 2,5 tons (Do-Fa)</li>
+                    <li>• Quinte juste: 3,5 tons (Do-Sol)</li>
+                    <li>• Octave: 6 tons (Do-Do)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <div class="flex justify-around py-2">
+            <a href="../index.html" class="nav-item">
+                <span>🏠</span>
+                <span class="text-xs">Accueil</span>
+            </a>
+            <a href="voice.html" class="nav-item">
+                <span>🎤</span>
+                <span class="text-xs">Voix</span>
+            </a>
+            <a href="instruments.html" class="nav-item">
+                <span>🎸</span>
+                <span class="text-xs">Instruments</span>
+            </a>
+            <a href="theory.html" class="nav-item active">
+                <span>📚</span>
+                <span class="text-xs">Théorie</span>
+            </a>
+            <a href="tools.html" class="nav-item">
+                <span>🛠️</span>
+                <span class="text-xs">Outils</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <span>👤</span>
+                <span class="text-xs">Profil</span>
+            </a>
+        </div>
+    </nav>
+
+    <script src="../assets/js/app.js"></script>
+    <script>
+        const realQuizzes = {
+            intervals: [
+                { question: "Combien de tons entre Do et Mi?", options: ["1 ton", "2 tons", "1,5 ton", "2,5 tons"], correct: 1 },
+                { question: "Quel intervalle entre Do et Sol?", options: ["Quarte", "Quinte", "Sixte", "Septième"], correct: 1 },
+                { question: "Combien de demi-tons dans une octave?", options: ["10", "11", "12", "13"], correct: 2 },
+                { question: "L'intervalle Do-Fa est:", options: ["Tierce majeure", "Quarte juste", "Quinte juste", "Sixte majeure"], correct: 1 }
+            ],
+            chords: [
+                { question: "L'accord Do-Mi-Sol est:", options: ["Do mineur", "Do majeur", "Do diminué", "Do augmenté"], correct: 1 },
+                { question: "Quelles notes forment Fa majeur?", options: ["Fa-La-Do", "Fa-Lab-Do", "Fa-La-Dob", "Fa-La#-Do"], correct: 0 },
+                { question: "L'accord Lam contient:", options: ["La-Do-Mi", "La-Do#-Mi", "La-Dob-Mi", "La-Do-Mib"], correct: 0 },
+                { question: "Un accord de septième a combien de notes?", options: ["3", "4", "5", "6"], correct: 1 }
+            ],
+            scales: [
+                { question: "La gamme de Do majeur contient:", options: ["Aucune altération", "1 dièse", "1 bémol", "2 dièses"], correct: 0 },
+                { question: "Sol majeur a combien de dièses?", options: ["0", "1", "2", "3"], correct: 1 },
+                { question: "La gamme mineure naturelle a:", options: ["3e et 6e abaissées", "3e et 7e abaissées", "2e et 6e abaissées", "3e, 6e et 7e abaissées"], correct: 3 },
+                { question: "Fa majeur a combien de bémols?", options: ["0", "1", "2", "3"], correct: 1 }
+            ]
+        };
+        
+        function startQuiz(type) {
+            const quizzes = realQuizzes[type];
+            const quiz = quizzes[Math.floor(Math.random() * quizzes.length)];
+            
+            const container = document.getElementById(`${type.slice(0, -1)}-quiz`);
+            const question = document.getElementById(`${type.slice(0, -1)}-question`);
+            const options = document.getElementById(`${type.slice(0, -1)}-options`);
+            const result = document.getElementById(`${type.slice(0, -1)}-result`);
+            
+            question.textContent = quiz.question;
+            options.innerHTML = '';
+            result.style.display = 'none';
+            
+            quiz.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'quick-action-btn text-sm';
+                btn.textContent = option;
+                btn.onclick = () => checkAnswer(index, quiz.correct, result, type);
+                options.appendChild(btn);
+            });
+            
+            container.style.display = 'block';
+            document.getElementById(`start-${type.slice(0, -1)}-quiz`).textContent = 'Nouveau Quiz';
+        }
+        
+        function checkAnswer(selected, correct, resultDiv, type) {
+            const isCorrect = selected === correct;
+            resultDiv.innerHTML = isCorrect ? 
+                '<span style="color: green; font-weight: bold;">✅ Correct!</span>' : 
+                '<span style="color: red; font-weight: bold;">❌ Incorrect</span>';
+            resultDiv.style.display = 'block';
+            
+            if (isCorrect && app) {
+                app.updateProgress('theory', 10);
+            }
+        }
+        
+        function startHarmonyQuiz(type) {
+            const harmonyQuizzes = {
+                progressions: [
+                    { question: "La progression I-V-vi-IV en Do majeur est:", options: ["Do-Sol-Lam-Fa", "Do-Fa-Sol-Lam", "Do-Lam-Fa-Sol", "Fa-Do-Sol-Lam"], correct: 0 },
+                    { question: "En jazz, ii-V-I en Do majeur donne:", options: ["Rém-Sol-Do", "Rém7-Sol7-DoMaj7", "Ré-Sol-Do", "Mim-La-Ré"], correct: 1 }
+                ],
+                cadences: [
+                    { question: "Une cadence parfaite est:", options: ["I-V", "V-I", "IV-I", "vi-V"], correct: 1 },
+                    { question: "La cadence plagale est:", options: ["V-I", "IV-I", "vi-IV", "I-vi"], correct: 1 }
+                ],
+                modulations: [
+                    { question: "Moduler à la dominante depuis Do majeur mène à:", options: ["Fa majeur", "Sol majeur", "Lam mineur", "Ré majeur"], correct: 1 },
+                    { question: "La modulation la plus courante est vers:", options: ["La sous-dominante", "La dominante", "Le relatif mineur", "La seconde"], correct: 1 }
+                ],
+                functions: [
+                    { question: "L'accord de sous-dominante en Do majeur est:", options: ["Sol", "Fa", "Lam", "Rém"], correct: 1 },
+                    { question: "La fonction de l'accord vi en majeur est:", options: ["Tonique", "Sous-dominante", "Dominante", "Relative"], correct: 3 }
+                ]
+            };
+            
+            const quiz = harmonyQuizzes[type][Math.floor(Math.random() * harmonyQuizzes[type].length)];
+            showTheoryQuiz(quiz, type);
+        }
+        
+        function showConcept(type) {
+            cleanupModals();
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            const concepts = {
+                intervals: {
+                    title: "Les Intervalles",
+                    content: [
+                        "<strong>Définition:</strong> Distance entre deux notes",
+                        "<strong>Unisson:</strong> Même note (0 demi-ton)",
+                        "<strong>Seconde mineure:</strong> 1 demi-ton (Do-Do#)",
+                        "<strong>Seconde majeure:</strong> 1 ton (Do-Ré)",
+                        "<strong>Tierce mineure:</strong> 1,5 ton (Do-Mib)",
+                        "<strong>Tierce majeure:</strong> 2 tons (Do-Mi)",
+                        "<strong>Quarte juste:</strong> 2,5 tons (Do-Fa)",
+                        "<strong>Triton:</strong> 3 tons (Do-Fa#)",
+                        "<strong>Quinte juste:</strong> 3,5 tons (Do-Sol)",
+                        "<strong>Octave:</strong> 6 tons (Do-Do aigu)"
+                    ]
+                },
+                scales: {
+                    title: "Les Gammes",
+                    content: [
+                        "<strong>Définition:</strong> Suite de notes organisées",
+                        "<strong>Gamme majeure:</strong> T-T-1/2T-T-T-T-1/2T",
+                        "<strong>Gamme mineure naturelle:</strong> T-1/2T-T-T-1/2T-T-T",
+                        "<strong>Gamme mineure harmonique:</strong> + 7ème majeure",
+                        "<strong>Gamme mineure mélodique:</strong> 6ème et 7ème majeures montantes",
+                        "<strong>Gamme pentatonique:</strong> 5 notes (Do-Ré-Mi-Sol-La)",
+                        "<strong>Gamme blues:</strong> Pentatonique + blue notes",
+                        "<strong>Modes:</strong> Variations de la gamme majeure"
+                    ]
+                },
+                chords: {
+                    title: "Les Accords",
+                    content: [
+                        "<strong>Définition:</strong> 3 notes ou plus jouées ensemble",
+                        "<strong>Triade majeure:</strong> Fondamentale + 3ce maj + 5te juste",
+                        "<strong>Triade mineure:</strong> Fondamentale + 3ce min + 5te juste",
+                        "<strong>Accord diminué:</strong> 3ce min + 5te dim",
+                        "<strong>Accord augmenté:</strong> 3ce maj + 5te aug",
+                        "<strong>Accord de 7ème:</strong> Triade + 7ème",
+                        "<strong>Renversements:</strong> Changer la note de basse",
+                        "<strong>Extensions:</strong> 9ème, 11ème, 13ème"
+                    ]
+                },
+                rhythm: {
+                    title: "Le Rythme",
+                    content: [
+                        "<strong>Définition:</strong> Organisation du temps en musique",
+                        "<strong>Pulsation:</strong> Battement régulier (métronome)",
+                        "<strong>Mesure:</strong> Groupement de temps",
+                        "<strong>Signature rythmique:</strong> 4/4, 3/4, 2/4, 6/8...",
+                        "<strong>Temps fort/faible:</strong> Accentuation naturelle",
+                        "<strong>Syncope:</strong> Accent sur temps faible",
+                        "<strong>Contretemps:</strong> Jeu entre les temps",
+                        "<strong>Polyrythme:</strong> Plusieurs rythmes simultanés"
+                    ]
+                },
+                harmony: {
+                    title: "L'Harmonie",
+                    content: [
+                        "<strong>Définition:</strong> Art de combiner les accords",
+                        "<strong>Tonalité:</strong> Centre tonal (Do majeur, La mineur)",
+                        "<strong>Degrés:</strong> I-II-III-IV-V-VI-VII",
+                        "<strong>Fonctions:</strong> Tonique, Sous-dominante, Dominante",
+                        "<strong>Cadences:</strong> Enchaînements conclusifs",
+                        "<strong>Modulation:</strong> Changement de tonalité",
+                        "<strong>Substitutions:</strong> Remplacer un accord",
+                        "<strong>Tensions:</strong> Dissonances expressives"
+                    ]
+                },
+                melody: {
+                    title: "La Mélodie",
+                    content: [
+                        "<strong>Définition:</strong> Suite de notes dans le temps",
+                        "<strong>Motif:</strong> Cellule mélodique de base",
+                        "<strong>Phrase:</strong> Idée musicale complète",
+                        "<strong>Ambitus:</strong> Étendue de la mélodie",
+                        "<strong>Mouvement conjoint:</strong> Notes voisines",
+                        "<strong>Saut mélodique:</strong> Intervalle > 2nde",
+                        "<strong>Point culminant:</strong> Note la plus aiguë",
+                        "<strong>Ornementation:</strong> Broderies, appogiatures..."
+                    ]
+                },
+                tempo: {
+                    title: "Le Tempo",
+                    content: [
+                        "<strong>Définition:</strong> Vitesse d'exécution de la musique",
+                        "<strong>BPM:</strong> Battements par minute",
+                        "<strong>Largo:</strong> Très lent (40-60 BPM)",
+                        "<strong>Adagio:</strong> Lent (66-76 BPM)",
+                        "<strong>Andante:</strong> Modéré (76-108 BPM)",
+                        "<strong>Allegro:</strong> Rapide (120-168 BPM)",
+                        "<strong>Presto:</strong> Très rapide (168-200 BPM)",
+                        "<strong>Rubato:</strong> Flexibilité expressive du tempo"
+                    ]
+                },
+                dynamics: {
+                    title: "Les Nuances Dynamiques",
+                    content: [
+                        "<strong>Définition:</strong> Variations d'intensité sonore",
+                        "<strong>pp (pianissimo):</strong> Très doux",
+                        "<strong>p (piano):</strong> Doux",
+                        "<strong>mp (mezzo-piano):</strong> Moyennement doux",
+                        "<strong>mf (mezzo-forte):</strong> Moyennement fort",
+                        "<strong>f (forte):</strong> Fort",
+                        "<strong>ff (fortissimo):</strong> Très fort",
+                        "<strong>Crescendo:</strong> Augmentation progressive",
+                        "<strong>Diminuendo:</strong> Diminution progressive"
+                    ]
+                },
+                articulation: {
+                    title: "L'Articulation",
+                    content: [
+                        "<strong>Définition:</strong> Manière d'attaquer et lier les notes",
+                        "<strong>Legato:</strong> Lié, coulant",
+                        "<strong>Staccato:</strong> Détaché, sec",
+                        "<strong>Tenuto:</strong> Tenu, soutenu",
+                        "<strong>Accent:</strong> Attaque marquée",
+                        "<strong>Marcato:</strong> Bien marqué",
+                        "<strong>Portato:</strong> Semi-détaché",
+                        "<strong>Sforzando:</strong> Accent soudain et fort"
+                    ]
+                },
+                form: {
+                    title: "La Forme Musicale",
+                    content: [
+                        "<strong>Définition:</strong> Structure et organisation d'une œuvre",
+                        "<strong>Forme binaire:</strong> AB (2 parties)",
+                        "<strong>Forme ternaire:</strong> ABA (3 parties)",
+                        "<strong>Rondo:</strong> ABACA (refrain alternatif)",
+                        "<strong>Forme sonate:</strong> Exposition-Développement-Réexposition",
+                        "<strong>Variations:</strong> Thème et variations",
+                        "<strong>Fugue:</strong> Contrepoint imité",
+                        "<strong>Couplets-Refrain:</strong> Structure chanson"
+                    ]
+                },
+                transposition: {
+                    title: "La Transposition",
+                    content: [
+                        "<strong>Définition:</strong> Changer la hauteur d'une mélodie/accord",
+                        "<strong>Transposition chromatique:</strong> Par demi-tons",
+                        "<strong>Transposition diatonique:</strong> Dans la tonalité",
+                        "<strong>Instruments transpositeurs:</strong> Clarinette, Saxophone...",
+                        "<strong>Capodastre:</strong> Transposition mécanique (guitare)",
+                        "<strong>Clés:</strong> Clé de Sol, Fa, Ut",
+                        "<strong>Armure:</strong> Dièses et bémols à la clé",
+                        "<strong>Enharmonie:</strong> Do# = Réb (même son)"
+                    ]
+                },
+                'ear-training': {
+                    title: "Formation de l'Oreille",
+                    content: [
+                        "<strong>Définition:</strong> Développement de l'écoute musicale",
+                        "<strong>Oreille absolue:</strong> Reconnaître les notes sans référence",
+                        "<strong>Oreille relative:</strong> Reconnaître les intervalles",
+                        "<strong>Solfège:</strong> Do-Ré-Mi-Fa-Sol-La-Si",
+                        "<strong>Dictee musicale:</strong> Écrire ce qu'on entend",
+                        "<strong>Reconnaissance d'accords:</strong> Majeur, mineur, diminué...",
+                        "<strong>Reconnaissance de gammes:</strong> Majeure, mineure, modes",
+                        "<strong>Analyse auditive:</strong> Comprendre la structure"
+                    ]
+                }
+            };
+            
+            const concept = concepts[type];
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0,0,0,0.9); display: flex; align-items: center;
+                justify-content: center; z-index: 1000; padding: 1rem;
+            `;
+            modal.onclick = (e) => { if(e.target === modal) cleanupModals(); };
+            
+            modal.innerHTML = `
+                <div style="
+                    background: white; padding: 2rem; border-radius: 16px;
+                    max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto;
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                ">
+                    <h3 style="color: var(--primary); margin-bottom: 1.5rem; font-size: 1.5rem; text-align: center;">${concept.title}</h3>
+                    
+                    <div style="margin-bottom: 2rem;">
+                        ${concept.content.map(item => `
+                            <div style="
+                                margin-bottom: 1rem; padding: 0.75rem;
+                                background: rgba(102, 126, 234, 0.05);
+                                border-left: 3px solid var(--primary);
+                                border-radius: 0 8px 8px 0;
+                            ">
+                                <p style="margin: 0; font-size: 0.9rem; line-height: 1.4;">${item}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <button onclick="this.parentElement.remove(); document.body.style.overflow=''; document.body.style.filter='';" style="
+                        background: var(--primary); color: white; border: none;
+                        padding: 0.75rem 2rem; border-radius: 8px; font-weight: 600;
+                        width: 100%; cursor: pointer;
+                    " onclick="cleanupModals()">Compris !</button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        function startModesQuiz() {
+            const modesQuizzes = [
+                { question: "Le mode Dorien a quelle caractéristique?", options: ["6te majeure", "4te augmentée", "7ème mineure", "2nde mineure"], correct: 0 },
+                { question: "Le mode Lydien se distingue par:", options: ["3ce mineure", "4te augmentée", "7ème mineure", "6te mineure"], correct: 1 },
+                { question: "Le mode Mixolydien est comme le majeur mais avec:", options: ["3ce mineure", "6te mineure", "7ème mineure", "4te augmentée"], correct: 2 }
+            ];
+            
+            const quiz = modesQuizzes[Math.floor(Math.random() * modesQuizzes.length)];
+            showTheoryQuiz(quiz, 'modes');
+        }
+        
+        function showTheoryQuiz(quiz, category) {
+            cleanupModals();
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(0,0,0,0.9); display: flex; align-items: center;
+                justify-content: center; z-index: 1000; padding: 1rem;
+            `;
+            modal.onclick = (e) => { if(e.target === modal) cleanupModals(); };
+            
+            modal.innerHTML = `
+                <div style="
+                    background: white; padding: 2rem; border-radius: 16px;
+                    max-width: 400px; width: 100%; text-align: center;
+                    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+                ">
+                    <h3 style="color: #D4AF37; margin-bottom: 1.5rem;">${category.toUpperCase()}</h3>
+                    <p style="margin-bottom: 2rem; font-weight: 600;">${quiz.question}</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
+                        ${quiz.options.map((option, index) => `
+                            <button onclick="checkTheoryAnswer(${index}, ${quiz.correct}, '${category}')" style="
+                                background: #f8f9fa; border: 2px solid #D4AF37;
+                                padding: 1rem; border-radius: 8px; cursor: pointer;
+                                transition: all 0.3s; font-weight: 600;
+                            ">${option}</button>
+                        `).join('')}
+                    </div>
+                    
+                    <button onclick="this.parentElement.remove(); document.body.style.overflow=''; document.body.style.filter='';" style="
+                        background: #6c757d; color: white; border: none;
+                        padding: 0.75rem 1.5rem; border-radius: 8px;
+                    " onclick="cleanupModals()">Fermer</button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        function checkTheoryAnswer(selected, correct, category) {
+            const buttons = document.querySelectorAll('[onclick*="checkTheoryAnswer"]');
+            buttons.forEach((btn, index) => {
+                if (index === correct) {
+                    btn.style.background = '#10b981';
+                    btn.style.color = 'white';
+                } else if (index === selected && selected !== correct) {
+                    btn.style.background = '#ef4444';
+                    btn.style.color = 'white';
+                }
+                btn.onclick = null;
+            });
+            
+            if (selected === correct && app) {
+                app.updateProgress('theory', 15);
+            }
+        }
+        
+        function cleanupModals() {
+            document.querySelectorAll('[style*="position: fixed"]').forEach(el => el.remove());
+            document.querySelectorAll('[style*="position:fixed"]').forEach(el => el.remove());
+            document.body.style.overflow = '';
+            document.body.style.filter = '';
+            document.body.style.opacity = '';
+            document.body.style.background = '';
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            cleanupModals();
+            document.getElementById('start-interval-quiz').onclick = () => startQuiz('intervals');
+            document.getElementById('start-chord-quiz').onclick = () => startQuiz('chords');
+            document.getElementById('start-scale-quiz').onclick = () => startQuiz('scales');
+        });
+    </script>
+</body>
+</html>
